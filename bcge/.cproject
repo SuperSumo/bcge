@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="org.eclipse.cdt.msvc.exe.debug.696084095">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="org.eclipse.cdt.msvc.exe.debug.696084095" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" description="" id="org.eclipse.cdt.msvc.exe.debug.696084095" name="Debug" parent="org.eclipse.cdt.msvc.exe.debug">
+					<folderInfo id="org.eclipse.cdt.msvc.exe.debug.696084095." name="/" resourcePath="">
+						<toolChain id="org.eclipse.cdt.msvc.toolchain.exe.debug.880783227" name="Microsoft Visual C++" superClass="org.eclipse.cdt.msvc.toolchain.exe.debug">
+							<targetPlatform id="org.eclipse.cdt.msvc.targetPlatform.exe.debug.54692540" superClass="org.eclipse.cdt.msvc.targetPlatform.exe.debug"/>
+							<builder buildPath="${workspace_loc:/sfml2/Debug}" id="org.eclipse.cdt.msvc.builder.1084098475" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="org.eclipse.cdt.msvc.builder"/>
+							<tool id="org.eclipse.cdt.msvc.cl.c.exe.debug.1214598603" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.exe.debug">
+								<option id="org.eclipse.cdt.msvc.cl.option.optimization.372551757" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.247372341" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.343883499" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\Documents and Settings\uv448c\My Documents\lib\SFML-2.0-rc\include&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.469562939" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.cl.exe.debug.510351866" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.exe.debug">
+								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1453784502" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1960386302" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.1122177987" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="D:/_misc/development/_home/libraries/glm-0.9.3.4"/>
+									<listOptionValue builtIn="false" value="D:/_misc/development/_home/libraries/SFML-2.0-rc/include"/>
+									<listOptionValue builtIn="false" value="D:/_misc/development/_home/include"/>
+									<listOptionValue builtIn="false" value="&quot;C:/Program Files/Microsoft SDKs/Windows/v7.0/Include&quot;"/>
+								</option>
+								<option id="org.eclipse.cdt.msvc.cl.option.macros.827945104" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros"/>
+								<inputType id="org.eclipse.cdt.msvc.cl.inputType.48123308" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.rc.exe.debug.1395378490" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.exe.debug">
+								<option id="org.eclipse.cdt.msvc.rc.option.includes.1498893897" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.rc.option.includes"/>
+								<inputType id="org.eclipse.cdt.msvc.rc.inputType.987499999" superClass="org.eclipse.cdt.msvc.rc.inputType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.link.exe.debug.956276138" name="Linker (link)" superClass="org.eclipse.cdt.msvc.link.exe.debug">
+								<option id="org.eclipse.cdt.msvc.link.option.debug.1592903344" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" value="true" valueType="boolean"/>
+								<option id="org.eclipse.cdt.msvc.link.option.libraries.2042968908" name="Libraries" superClass="org.eclipse.cdt.msvc.link.option.libraries" valueType="libs">
+									<listOptionValue builtIn="false" value="sfml-window.lib"/>
+									<listOptionValue builtIn="false" value="glew32.lib"/>
+									<listOptionValue builtIn="false" value="glu32.lib"/>
+									<listOptionValue builtIn="false" value="kernel32.lib"/>
+									<listOptionValue builtIn="false" value="sfml-system.lib"/>
+									<listOptionValue builtIn="false" value="sfml-graphics.lib"/>
+									<listOptionValue builtIn="false" value="sfml-main.lib"/>
+									<listOptionValue builtIn="false" value="opengl32.lib"/>
+								</option>
+								<option id="org.eclipse.cdt.msvc.link.option.libpath.1487747452" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" valueType="stringList">
+									<listOptionValue builtIn="false" value="D:/_misc/development/_home/lib"/>
+									<listOptionValue builtIn="false" value="D:/_misc/development/_home/libraries/SFML-2.0-rc/lib"/>
+									<listOptionValue builtIn="false" value="&quot;C:/Program Files/Microsoft SDKs/Windows/v7.0/Lib&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.msvc.link.inputType.399296632" superClass="org.eclipse.cdt.msvc.link.inputType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.lib.1908877618" name="Library Manager (lib)" superClass="org.eclipse.cdt.msvc.lib"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="unused" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="org.eclipse.cdt.msvc.exe.release.609012674">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="org.eclipse.cdt.msvc.exe.release.609012674" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" description="" id="org.eclipse.cdt.msvc.exe.release.609012674" name="Release" parent="org.eclipse.cdt.msvc.exe.release">
+					<folderInfo id="org.eclipse.cdt.msvc.exe.release.609012674." name="/" resourcePath="">
+						<toolChain id="org.eclipse.cdt.msvc.toolchain.exe.release.1902012000" name="Microsoft Visual C++" superClass="org.eclipse.cdt.msvc.toolchain.exe.release">
+							<targetPlatform id="org.eclipse.cdt.msvc.targetPlatform.exe.release.1117913348" superClass="org.eclipse.cdt.msvc.targetPlatform.exe.release"/>
+							<builder buildPath="${workspace_loc:/sfml2/Release}" id="org.eclipse.cdt.msvc.builder.233005809" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="org.eclipse.cdt.msvc.builder"/>
+							<tool id="org.eclipse.cdt.msvc.cl.c.exe.release.1447407092" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.exe.release">
+								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1563773326" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1889027755" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.306995310" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\Documents and Settings\uv448c\My Documents\lib\SFML-2.0-rc\include&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.475772935" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.cl.exe.release.1181309504" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.exe.release">
+								<option id="org.eclipse.cdt.msvc.cl.option.optimization.55904110" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.449473835" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.1686816845" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\Documents and Settings\uv448c\My Documents\lib\SFML-2.0-rc\include&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1198795988" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.rc.exe.release.1221166118" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.exe.release">
+								<option id="org.eclipse.cdt.msvc.rc.option.includes.763776614" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.rc.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\Documents and Settings\uv448c\My Documents\lib\SFML-2.0-rc\include&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.msvc.rc.inputType.312352645" superClass="org.eclipse.cdt.msvc.rc.inputType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.link.exe.release.292054051" name="Linker (link)" superClass="org.eclipse.cdt.msvc.link.exe.release">
+								<option id="org.eclipse.cdt.msvc.link.option.libraries.1219871313" name="Libraries" superClass="org.eclipse.cdt.msvc.link.option.libraries" valueType="libs">
+									<listOptionValue builtIn="false" value="&quot;C:\Documents and Settings\uv448c\My Documents\lib\SFML-2.0-rc\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Documents and Settings\uv448c\My Documents\lib\SFML-2.0-rc\lib\sfml-main.lib&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.msvc.link.inputType.480662396" superClass="org.eclipse.cdt.msvc.link.inputType"/>
+							</tool>
+							<tool id="org.eclipse.cdt.msvc.lib.858168989" name="Library Manager (lib)" superClass="org.eclipse.cdt.msvc.lib"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="unused" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="sfml2.org.eclipse.cdt.msvc.projectType.exe.1231737593" name="Executable" projectType="org.eclipse.cdt.msvc.projectType.exe"/>
+	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/sfml2"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/sfml2"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.msvc.exe.debug.696084095;org.eclipse.cdt.msvc.exe.debug.696084095.;org.eclipse.cdt.msvc.cl.exe.debug.510351866;org.eclipse.cdt.msvc.cl.inputType.48123308">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.msvc.exe.release.609012674;org.eclipse.cdt.msvc.exe.release.609012674.;org.eclipse.cdt.msvc.cl.exe.release.1181309504;org.eclipse.cdt.msvc.cl.inputType.1198795988">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.msvc.exe.debug.696084095;org.eclipse.cdt.msvc.exe.debug.696084095.;org.eclipse.cdt.msvc.cl.c.exe.debug.1214598603;org.eclipse.cdt.msvc.cl.inputType.c.469562939">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.msvc.exe.release.609012674;org.eclipse.cdt.msvc.exe.release.609012674.;org.eclipse.cdt.msvc.cl.c.exe.release.1447407092;org.eclipse.cdt.msvc.cl.inputType.c.475772935">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+</cproject>
