@@ -1,6 +1,8 @@
 #include "cube.h"
 #include "../buffer.h"
 #include "../game.h"
+#include "../shaderManager.h"
+#include "../shaderProg.h"
 #include <gl/glew.h>
 #include <SFML/OpenGL.hpp>
 #include <iostream>
@@ -71,6 +73,24 @@ void CubeObject::load()
 	cbo->load(colors, sizeof(colors));
 	ibo->load(indices, sizeof(indices));
 //	cout << "CubeObject::load() end" << endl;
+
+	// Create a shaderProg in the shaderManager
+	vector<string> shaderNames;
+	shaderNames.push_back("shaders/vertex.glsl");
+	shaderNames.push_back("shaders/fragment.glsl");
+	ShaderManager* sm = get_game()->get_shader_manager();
+	bool allGood = sm->add_shaderProg("cube", shaderNames);
+	cout << "Did everything work? " << (allGood ? "Yup!" : "Nope! :(") << endl;
+	if (!allGood)
+		get_game()->quit();
+
+	// Set the progID
+	ShaderProg* sp = sm->get_shaderProg("cube");
+	progID = sp->get_id();
+	sp->print_attributes();
+	sp->print_uniforms();
+	GLuint modelID = sp->get_uniform("model");
+	cout << "modelID: " << modelID << endl;
 }
 
 void CubeObject::unload()

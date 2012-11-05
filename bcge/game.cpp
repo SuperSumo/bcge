@@ -1,3 +1,5 @@
+#include <gl/glew.h>
+#include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -16,6 +18,7 @@ using namespace std;
 #include "object.h"
 #include "instance.h"
 #include "constants.h"
+#include "shaderManager.h"
 
 #include "objects/cube.h"
 #include "objects/generic.h"
@@ -26,6 +29,7 @@ Game::Game(Manager* manager):
 {
 	keyboard = new Keyboard(this);
 	renderer = new Renderer(this);
+	shaderManager = new ShaderManager;
 }
 
 Game::~Game()
@@ -44,6 +48,8 @@ Game::~Game()
 	for (i=instances.begin(); i!=instances.end(); i++)
 		delete *i;
 	instances.clear();
+
+	delete shaderManager;
 }
 
 Manager* Game::get_manager()
@@ -66,6 +72,11 @@ Camera* Game::get_camera()
 	return camera;
 }
 
+ShaderManager* Game::get_shader_manager()
+{
+	return shaderManager;
+}
+
 void Game::update(float dt)
 {
 	// Grab any new held down
@@ -81,7 +92,10 @@ void Game::update(float dt)
 
 void Game::load()
 {
-	// TODO: Finish the ShaderManager class
+	// Load the shaders into the shaderManager
+	shaderManager->add_shader("shaders/vertex.glsl", GL_VERTEX_SHADER);
+	shaderManager->add_shader("shaders/fragment.glsl", GL_FRAGMENT_SHADER);
+	shaderManager->print_shaders();
 
 	// Load the game's objects
 //	cout << "Game::load() - creating the objects" << endl;

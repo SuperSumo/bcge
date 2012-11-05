@@ -9,6 +9,7 @@ class Manager;
 class Keyboard;
 class Renderer;
 class Camera;
+class ShaderManager;
 class Object;
 class Instance;
 
@@ -23,6 +24,7 @@ class Game
 		Keyboard* get_keyboard();
 		Renderer* get_renderer();
 		Camera* get_camera();
+		ShaderManager* get_shader_manager();
 
 		void update(float dt);
 		void load();
@@ -37,6 +39,7 @@ class Game
 		bool isRunning, isPaused;
 		Keyboard* keyboard;
 		Renderer* renderer;
+		ShaderManager* shaderManager;
 		Camera* camera;
 		sf::Clock clock;
 		sf::Time time;

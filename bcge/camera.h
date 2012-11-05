@@ -20,6 +20,7 @@ class Camera: public Instance
 
 		void change_fov(float delta);
 		virtual void draw();
+		void apply_to_shader(GLuint progID);
 		glm::mat4 get_projection();
 		glm::mat4 get_view();
 

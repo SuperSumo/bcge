@@ -9,7 +9,7 @@
 #include "camera.h"
 #include "renderer.h"
 
-Object::Object(Game* game): game(game), vbo(0), ibo(0), cbo(0)
+Object::Object(Game* game): game(game), vbo(0), ibo(0), cbo(0), progID(-1)
 {}
 
 Object::~Object()
@@ -26,41 +26,50 @@ void Object::reload()
 	load();
 }
 
+GLuint Object::get_progID()
+{
+	return progID;
+}
+
 void Object::draw()
 {
-	GLuint progID = get_game()->get_renderer()->progID;
-
-	if (vbo)
+	if (get_progID() != -1)
 	{
-		// associate position input to shader with position array in vertex buffer
-		GLuint vPosition = glGetAttribLocation(progID, "inVertex");
-		glEnableVertexAttribArray(vPosition);
+		if (vbo)
+		{
+			// associate position input to shader with position array in vertex buffer
+			GLuint vPosition = glGetAttribLocation(get_progID(), "inVertex");
+			glEnableVertexAttribArray(vPosition);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo->get_id());
+			glVertexAttribPointer(vPosition, /*xyz*/3, GL_FLOAT, GL_FALSE, 0, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+
+		if (cbo)
+		{
+			// associate color input to shader with color array in vertex buffer
+			GLuint vColor = glGetAttribLocation(get_progID(), "inColor");
+			glEnableVertexAttribArray(vColor);
+			glBindBuffer(GL_ARRAY_BUFFER, cbo->get_id());
+			glVertexAttribPointer(vColor, /*rgba*/4, GL_FLOAT, GL_FALSE, 0, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+
+		// Use the vertex buffer
 		glBindBuffer(GL_ARRAY_BUFFER, vbo->get_id());
-		glVertexAttribPointer(vPosition, /*xyz*/3, GL_FLOAT, GL_FALSE, 0, 0);
+		glVertexPointer(/*xyz*/3, GL_FLOAT, 0, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
 
-	if (cbo)
-	{
-		// associate color input to shader with color array in vertex buffer
-		GLuint vColor = glGetAttribLocation(progID, "inColor");
-		glEnableVertexAttribArray(vColor);
+		// Use the color buffer
 		glBindBuffer(GL_ARRAY_BUFFER, cbo->get_id());
-		glVertexAttribPointer(vColor, /*rgba*/4, GL_FLOAT, GL_FALSE, 0, 0);
+		glColorPointer(/*rgba*/4, GL_FLOAT, 0, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		// Apply the camera
+		get_game()->get_camera()->apply_to_shader(get_progID());
+
+		// Draw from the buffers
+		if (ibo && ibo->get_id() != -1) ibo->draw();
+		else if (vbo && vbo->get_id() != -1) vbo->draw();
 	}
-
-	// Use the vertex buffer
-	glBindBuffer(GL_ARRAY_BUFFER, vbo->get_id());
-	glVertexPointer(/*xyz*/3, GL_FLOAT, 0, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Use the color buffer
-	glBindBuffer(GL_ARRAY_BUFFER, cbo->get_id());
-	glColorPointer(/*rgba*/4, GL_FLOAT, 0, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Draw from the buffers
-	if (ibo && ibo->get_id() != -1) ibo->draw();
-	else if (vbo && vbo->get_id() != -1) vbo->draw();
 }

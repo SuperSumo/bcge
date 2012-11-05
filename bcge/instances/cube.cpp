@@ -29,7 +29,7 @@ void CubeInstance::draw()
 	model = glm::rotate(modelRotY, rot.x, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Grab the current program's ID
-	GLuint progID = object->get_game()->get_renderer()->progID;
+	GLuint progID = object->get_progID();
 
 	// Update shader info
 	GLuint modelID = glGetUniformLocation(progID, "model");

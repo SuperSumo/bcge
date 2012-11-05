@@ -34,10 +34,10 @@ bool ShaderManager::add_shader(string filename, GLenum type)
 	ret = shaders.insert(pair<string, Shader*>(filename, shader));
 	if (!ret.second)
 	{
-		cerr	<< "ShaderManager::add_shader - Shader "
+		cerr	<< "ShaderManager::add_shader - Shader \""
 				<< filename
-				<< " already exists." << endl;
-		return false;
+				<< "\" already exists." << endl;
+//		return false;
 	}
 	return allGood;
 }
@@ -82,6 +82,7 @@ bool ShaderManager::add_shaderProg(string shaderProgName, vector<string> shaderN
 		cerr	<< "ShaderManager::add_shaderProg - ShaderProg "
 				<< shaderProgName
 				<< " already exists." << endl;
+		shaderProgs.erase(ret.first);
 		return false;
 	}
 
@@ -90,18 +91,18 @@ bool ShaderManager::add_shaderProg(string shaderProgName, vector<string> shaderN
 	if (shaders.size())
 		for (i=shaderNames.begin(); i!=shaderNames.end(); i++)
 		{
-			cout << "compiling " << *i << endl;
+			cout << "Adding " << *i << " to " << shaderProgName << endl;
 			map<string, Shader*>::iterator s = shaders.find(*i);
 			if (s == shaders.end())
 			{
-				allGood = false;
-				cerr	<< "ShaderManager::add_shaderProg - Shader "
+				cerr	<< "ShaderManager::add_shaderProg - Shader \""
 						<< *i
-						<< " doesn't exist in the shader manager." << endl;
+						<< "\" doesn't exist in the shader manager." << endl;
+				shaderProgs.erase(ret.first);
+				return false;
 			}
 			else
 				allGood &= shaderProg->add_shader(shaders[*i]);
-
 		}
 		// Check if the compilation went ok
 		if (allGood) allGood &= shaderProg->compile();
@@ -113,9 +114,9 @@ ShaderProg* ShaderManager::get_shaderProg(string shaderProgName)
 	map<string, ShaderProg*>::iterator s = shaderProgs.find(shaderProgName);
 	if (s == shaderProgs.end())
 	{
-		cerr	<< "ShaderManager::get_shaderProg - ShaderProg "
+		cerr	<< "ShaderManager::get_shaderProg - ShaderProg \""
 				<< shaderProgName
-				<< " doesn't exist in the shader manager." << endl;
+				<< "\" doesn't exist in the shader manager." << endl;
 		return 0;
 	}
 	return s->second;
