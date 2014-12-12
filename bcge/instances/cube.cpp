@@ -25,7 +25,8 @@ void CubeInstance::draw()
 {
 	// Create the model matrix
 	glm::mat4 modelTrans = glm::translate(glm::mat4(1.0f), pos);
-	glm::mat4 modelRotY = glm::rotate(modelTrans, rot.y, glm::vec3(-1.0f, 0.0f, 0.0f));
+	glm::mat4 modelRotZ = glm::rotate(modelTrans, rot.z, glm::vec3(0.0f, 0.0f, -1.0f));
+	glm::mat4 modelRotY = glm::rotate(modelRotZ, rot.y, glm::vec3(-1.0f, 0.0f, 0.0f));
 	model = glm::rotate(modelRotY, rot.x, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Grab the current program's ID

@@ -1,14 +1,13 @@
+#include <iostream>
+
 #include <gl/glew.h>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <glm/glm.hpp>
 
 #include "defines.h"
 
-#include <glm/glm.hpp>
-
-#include <iostream>
-using namespace std;
 #include "game.h"
 #include "window.h"
 #include "manager.h"
@@ -20,9 +19,11 @@ using namespace std;
 #include "constants.h"
 #include "shaderManager.h"
 
-#include "objects/cube.h"
-#include "objects/generic.h"
+#include "models/cube.h"
+#include "models/generic.h"
 #include "instances/cube.h"
+
+using namespace std;
 
 Game::Game(Manager* manager):
 	manager(manager), isRunning(true), isPaused(false), camera(0)

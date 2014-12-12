@@ -20,12 +20,14 @@ class Instance
 		virtual void update(float dt);
 		virtual void draw()=0;
 
-	protected:
-		// Position, rotation, velocity, acceleration
-		Object* object;
 		glm::vec3 pos, vel, acc;
 		glm::vec3 rot, rotV, rotA;
 		glm::mat4 model;
+
+	protected:
+		// Position, rotation, velocity, acceleration
+		Object* object;
+
 };
 
 #endif

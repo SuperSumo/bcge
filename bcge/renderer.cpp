@@ -25,6 +25,8 @@ Game* Renderer::get_game()
 
 void Renderer::init_gl()
 {
+	glewExperimental = GL_TRUE;
+	glewInit();
 	glClearColor(0.75f, 0.75f, 0.75f, 1.0f);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);

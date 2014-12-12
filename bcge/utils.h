@@ -7,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-void error(char* errStr);
+void error(const char* errStr);
 string display_matrix(glm::mat4 a);
 bool read_text_file(string filename, string& buffer);
 

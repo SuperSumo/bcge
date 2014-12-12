@@ -10,7 +10,7 @@
 #include <stdexcept>
 using namespace std;
 
-void error(char* errStr)
+void error(const char* errStr)
 {
 	cerr << errStr << endl;
 	throw runtime_error(errStr);
