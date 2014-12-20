@@ -1,22 +1,36 @@
+#include <iostream>
+
 #include <SFML/Window.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
 #include "keyboard.h"
-#include "game.h"
+#include "abc/game.h"
 #include "renderer.h"
 #include "manager.h"
 #include "window.h"
-#include "camera.h"
-#include <iostream>
+// #include "camera.h"
+
 using namespace std;
 
-Keyboard::Keyboard(Game* game): game(game)
-{}
+Keyboard::Keyboard(Game* game): _game(game)
+{
+	_keyMask = new bool[sf::Keyboard::KeyCount];
+}
+
+Keyboard::~Keyboard()
+{
+	delete[] _keyMask;
+}
 
 Game* Keyboard::get_game()
 {
-	return game;
+	return _game;
+}
+
+void Keyboard::key_pressed(sf::Keyboard::Key key)
+{
+	cout << "a key was pressed: " << key << endl;
+	cout << "number of keys: " << sf::Keyboard::KeyCount << endl;
+	_keyMask[key] = true;
 }
 
 void Keyboard::key_released(sf::Keyboard::Key key)
@@ -26,7 +40,7 @@ void Keyboard::key_released(sf::Keyboard::Key key)
 	{
 		case sf::Keyboard::Escape:
 		case sf::Keyboard::Q:
-			get_game()->quit();
+			get_game()->get_manager()->quit();
 			break;
 		case sf::Keyboard::F:
 			get_game()->get_manager()->get_window()->toggle_fullscreen();
@@ -34,12 +48,14 @@ void Keyboard::key_released(sf::Keyboard::Key key)
 		case sf::Keyboard::P:
 			get_game()->toggle_pause();
 			break;
-		case sf::Keyboard::R:
-			get_game()->get_renderer()->init_gl();
-			break;
 		default:
 			break;
 	}
+}
+
+bool Keyboard::isKeyDown(sf::Keyboard::Key key)
+{
+	return _keyMask[key];
 }
 
 void Keyboard::check_keys(float dt)
@@ -47,9 +63,9 @@ void Keyboard::check_keys(float dt)
 	// If keys are held down, the check goes here.
 	// I need multiple IF statements here to check all the keys
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Equal))
-		get_game()->get_camera()->change_fov(-10.0f*dt);
+	// if (sf::Keyboard::isKeyPressed(sf::Keyboard::Equal))
+	// 	get_game()->get_camera()->change_fov(-10.0f*dt);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
-		get_game()->get_camera()->change_fov(10.0f*dt);
+	// if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
+	// 	get_game()->get_camera()->change_fov(10.0f*dt);
 }

@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_H_
-#define KEYBOARD_H_
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
 #include <SFML/Window.hpp>
 
@@ -10,16 +10,21 @@ class Keyboard
 	public:
 
 		Keyboard(Game* game);
+		~Keyboard();
 
 		Game* get_game();
 
+		void key_pressed(sf::Keyboard::Key key);
 		void key_released(sf::Keyboard::Key key);
+		bool isKeyDown(sf::Keyboard::Key key);
 		void check_keys(float dt);
 
 	private:
 
 		Keyboard();
-		Game* game;
+
+		Game* _game;
+		bool* _keyMask;
 };
 
-#endif /* KEYBOARD_H_ */
+#endif

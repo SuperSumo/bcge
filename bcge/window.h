@@ -1,11 +1,14 @@
-#ifndef WINDOW_H_
-#define WINDOW_H_
+#ifndef WINDOW_H
+#define WINDOW_H
+
+#include <iostream>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <iostream>
-using namespace std;
+
 #include "defines.h"
+
+using namespace std;
 
 class Manager;
 
@@ -13,31 +16,22 @@ class Window: public sf::Window
 {
 	public:
 
-		Window(Manager* manager, int argc, char** argv,
-				string title=TITLE, uint w=400, uint h=300);
+		Window(Manager* manager, string title=TITLE, uint w=400, uint h=300);
 		Manager* get_manager();
-
-		void init_gl();
-		void init_glew();
 
 		void create_window();
 		void resize(uint width, uint height);
 		void toggle_fullscreen();
-		uint width();
-		uint height();
-		float get_framerate() const;
 
 	private:
 
 		Window();
-		Manager* manager;
-		int argc;
-		char** argv;
-		uint w,h;
-		string title;
-		bool isFullScreen;
-		sf::VideoMode fullScreenMode;
-		float framerate;
+
+		Manager* _manager;
+		uint _width;
+		uint _height;
+		string _title;
+		bool _isFullScreen;
 };
 
-#endif /* WINDOW_H_ */
+#endif

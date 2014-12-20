@@ -1,50 +1,54 @@
-#include <gl/glew.h>
-#include <SFML/OpenGL.hpp>
-#include "renderer.h"
-#include "game.h"
-#include "defines.h"
-#include "manager.h"
-#include "window.h"
-#include "instance.h"
-#include "shader.h"
-#include "shaderProg.h"
 #include <iostream>
 #include <algorithm>
+
+#include <gl/glew.h>
+#include <SFML/OpenGL.hpp>
+
+#include "renderer.h"
+#include "manager.h"
+#include "window.h"
+
 using namespace std;
 
-Renderer::Renderer(Game* game): game(game), progID(-1)
+Renderer::Renderer(Manager* manager): _manager(manager)
 {}
 
 Renderer::~Renderer()
 {}
 
-Game* Renderer::get_game()
+Manager* Renderer::get_manager()
 {
-	return game;
+	return _manager;
 }
 
 void Renderer::init_gl()
 {
-	glewExperimental = GL_TRUE;
-	glewInit();
-	glClearColor(0.75f, 0.75f, 0.75f, 1.0f);
+	GLenum glew = glewInit();
+	if (glew != GLEW_OK)
+	{
+		cerr << "GLEW Error: " << glewGetErrorString(glew) << endl;
+		_manager->quit();
+	}
+	// glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	glLineWidth(5.0f);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_INDEX_ARRAY);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// glLineWidth(5.0f);
+	// glEnableClientState(GL_VERTEX_ARRAY);
+	// glEnableClientState(GL_COLOR_ARRAY);
+	// glEnableClientState(GL_INDEX_ARRAY);
+	// glEnable(GL_DEPTH_TEST);
+	// glEnable(GL_BLEND);
+	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glPointSize(10.0);
 }
 
-void Renderer::render(vector<Instance*> instances)
+void Renderer::draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(progID);
-	vector<Instance*>::iterator i;
-	for (i=instances.begin(); i!=instances.end(); i++)
-		(*i)->draw();
-	glUseProgram(0);
+	glColor3f(0.3f, 0.6f, 0.9f);
+	glBegin(GL_POINTS);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glEnd();
+	_manager->get_window()->display();
 }

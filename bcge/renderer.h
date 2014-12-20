@@ -1,34 +1,34 @@
-#ifndef RENDERER_H_
-#define RENDERER_H_
+#ifndef RENDERER_H
+#define RENDERER_H
+
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 #include <SFML/OpenGL.hpp>
 #include <SFML/Window.hpp>
-#include <iostream>
-#include <sstream>
-using namespace std;
-#include <vector>
+
 #include "defines.h"
 
-class Game;
-class Renderer;
-class Instance;
+using namespace std;
+
+class Manager;
 
 class Renderer
 {
 	public:
 
-		Renderer(Game* game);
+		Renderer(Manager* manager);
 		~Renderer();
-		Game* get_game();
+		Manager* get_manager();
 		void init_gl();
-		void render(vector<Instance*> instances);
-		// TODO: Get rid of this!
-		GLuint progID;
+		void draw();
 
 	private:
 
 		Renderer();
-		Game* game;
+
+		Manager* _manager;
 };
 
-#endif /* RENDERER_H_ */
+#endif

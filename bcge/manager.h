@@ -1,24 +1,32 @@
-#ifndef MANAGER_H_
-#define MANAGER_H_
+#ifndef MANAGER_H
+#define MANAGER_H
 
 class Game;
 class Window;
+class Renderer;
 
 class Manager
 {
 	public:
 
-		Manager(int argc, char** argv, Game* initialGame=0);
+		Manager(Game* initialGame=0);
 		~Manager();
 
-		void set_game(Game* gameToSet);
-		Game* get_game();
+		void load_game(Game* gameToSet);
+		void quit();
+
 		Window* get_window();
+		Game* get_game();
+		Renderer* get_renderer();
 
 	private:
 
-		Window* window;
-		Game* game;
+		Window* _window;
+		Game* _game;
+		Renderer* _renderer;
+		bool _isRunning;
+		void _main_loop();
+		void _handle_events();
 };
 
-#endif /* MANAGER_H_ */
+#endif

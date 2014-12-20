@@ -1,92 +1,63 @@
-#include <GL/glew.h>
+#include <iostream>
+
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
-#include <iostream>
-using namespace std;
-#include "defines.h"
+
 #include "manager.h"
 #include "window.h"
-#include "game.h"
 #include "renderer.h"
 
-Window::Window(Manager* manager, int argc, char** argv,
-		string title, uint w, uint h):
-	sf::Window(),
-	manager(manager), argc(argc), argv(argv),
-	w(w), h(h), title(title), isFullScreen(false),
-	fullScreenMode(sf::VideoMode::getDesktopMode()),
-	framerate(60.0f)
+using namespace std;
+
+Window::Window(Manager* manager, string title, uint w, uint h):
+	sf::Window(), _manager(manager), _width(w), _height(h), _title(title),
+	_isFullScreen(false)
 {
 	// Make sure this is the order of operations: window, glew, gl
-	setFramerateLimit(framerate);
 	create_window();
 }
 
 Manager* Window::get_manager()
 {
-	return manager;
-}
-
-void Window::init_gl()
-{
-	get_manager()->get_game()->get_renderer()->init_gl();
-}
-
-void Window::init_glew()
-{
-	GLenum glew = glewInit();
-	if (glew != GLEW_OK)
-	{
-		cerr << "GLEW Error: " << glewGetErrorString(glew) << endl;
-		close();
-	}
+	return _manager;
 }
 
 void Window::resize(uint width, uint height)
 {
-	if (!isFullScreen)
+	if (!_isFullScreen)
 	{
-		w = width;
-		h = height;
+		_width = width;
+		_height = height;
 	}
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, _width, _height);
 }
 
 void Window::create_window()
 {
-	if (isFullScreen)
-	{
-		// TODO: Sometime in the future, let the user choose which resolution.
-//		vector<sf::VideoMode> fullScreenModes = sf::VideoMode::getFullscreenModes();
-		close();
-		create(fullScreenMode, title, sf::Style::Fullscreen);
-	}
+	close();
+	if (_isFullScreen)
+		create(sf::VideoMode::getDesktopMode(), _title, sf::Style::Fullscreen);
 	else
-	{
-		close();
-		create(sf::VideoMode(w, h), title);
-	}
-	init_glew();
-	init_gl();
+		create(sf::VideoMode(_width, _height), _title);
+
+	// I don't want repeating keys enabled while gaming. Maybe when a user is
+	// typing I can turn this on again.
+	setKeyRepeatEnabled(false);
+
+	// Window Options - TODO: Load from a config file.
+	setVerticalSyncEnabled(true);
+
+	// Since the window was closed we need to re-initilize opengl and reload
+	// all the game stuff
+	_manager->get_renderer()->init_gl();
+
+	// TODO: Write a method to reload the shaders. I'm not sure where it will
+	// go yet.
+	// _manager->get_renderer()->get_shader_manager()->reload()
 }
 
 void Window::toggle_fullscreen()
 {
-	isFullScreen = !isFullScreen;
+	_isFullScreen = !_isFullScreen;
 	create_window();
-}
-
-uint Window::width()
-{
-	return isFullScreen ? fullScreenMode.width : w;
-}
-
-uint Window::height()
-{
-	return isFullScreen ? fullScreenMode.height : h;
-}
-
-float Window::get_framerate() const
-{
-	return framerate;
 }
