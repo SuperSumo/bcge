@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#include "defines.h"
+#include "defines_constants_typedefs.h"
 
 using namespace std;
 

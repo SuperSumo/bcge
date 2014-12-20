@@ -8,7 +8,7 @@
 #include <SFML/OpenGL.hpp>
 #include <SFML/Window.hpp>
 
-#include "defines.h"
+#include "defines_constants_typedefs.h"
 
 using namespace std;
 

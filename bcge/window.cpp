@@ -14,6 +14,8 @@ Window::Window(Manager* manager, string title, uint w, uint h):
 	_isFullScreen(false)
 {
 	// Make sure this is the order of operations: window, glew, gl
+	// TODO: Set this to the user's refresh rate or primus gives errors
+	setFramerateLimit(60.0f);
 	create_window();
 }
 

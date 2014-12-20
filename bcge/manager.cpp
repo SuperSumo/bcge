@@ -6,7 +6,7 @@
 #include "renderer.h"
 #include "window.h"
 #include "keyboard.h"
-#include "defines.h"
+#include "defines_constants_typedefs.h"
 
 using namespace std;
 
