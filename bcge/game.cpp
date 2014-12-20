@@ -19,8 +19,8 @@
 #include "constants.h"
 #include "shaderManager.h"
 
-#include "models/cube.h"
-#include "models/generic.h"
+#include "objects/cube.h"
+#include "objects/generic.h"
 #include "instances/cube.h"
 
 using namespace std;
