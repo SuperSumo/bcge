@@ -1,6 +1,7 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
+#include <gl/glew.h>
 #include <SFML/Window.hpp>
 
 class Game;

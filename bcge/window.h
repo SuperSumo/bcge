@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include <gl/glew.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 

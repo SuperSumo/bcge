@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <SFML/OpenGL.hpp>
+#include <gl/glew.h>
 #include <SFML/Graphics.hpp>
 
 #include "manager.h"
@@ -51,7 +51,7 @@ void Window::create_window()
 
 	// Since the window was closed we need to re-initilize opengl and reload
 	// all the game stuff
-	_manager->get_renderer()->init_gl();
+	_manager->get_renderer()->initialize();
 
 	// TODO: Write a method to reload the shaders. I'm not sure where it will
 	// go yet.

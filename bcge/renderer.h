@@ -1,16 +1,12 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <iostream>
-#include <sstream>
-#include <vector>
-
+#include <gl/glew.h>
 #include <SFML/OpenGL.hpp>
-#include <SFML/Window.hpp>
 
 #include "defines_constants_typedefs.h"
-
-using namespace std;
+#include "shader.h"
+#include "shaderManager.h"
 
 class Manager;
 
@@ -19,10 +15,8 @@ class Renderer
 	public:
 
 		Renderer(Manager* manager);
-		~Renderer();
-		Manager* get_manager();
-		void init_gl();
-		void draw();
+		void initialize();
+		void render();
 
 	private:
 

@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <gl/glew.h>
 #include <SFML/Window.hpp>
 
 #include "keyboard.h"
@@ -40,7 +41,7 @@ void Keyboard::key_released(sf::Keyboard::Key key)
 	{
 		case sf::Keyboard::Escape:
 		case sf::Keyboard::Q:
-			get_game()->get_manager()->quit();
+			get_game()->get_manager()->get_window()->close();
 			break;
 		case sf::Keyboard::F:
 			get_game()->get_manager()->get_window()->toggle_fullscreen();
@@ -60,12 +61,13 @@ bool Keyboard::isKeyDown(sf::Keyboard::Key key)
 
 void Keyboard::check_keys(float dt)
 {
-	// If keys are held down, the check goes here.
-	// I need multiple IF statements here to check all the keys
-
-	// if (sf::Keyboard::isKeyPressed(sf::Keyboard::Equal))
-	// 	get_game()->get_camera()->change_fov(-10.0f*dt);
-
-	// if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
-	// 	get_game()->get_camera()->change_fov(10.0f*dt);
+	// Loop through the key queue and call key_action(<key, state>, dt) for
+	// each <key, state> pair in the queue.
 }
+
+// On key_pressed event, add a [key/<down>] pair to a FIFO queue.
+// On key_released event, add a [key/<up>] pair to a FIFO queue.
+// In _check_keys, create a loop until the queue is empty. In the loop call
+// key_action for each item in the queue. Create a virtual method key_action
+// which takes a (pair<key,state>, dt) and override that method in each derived
+// keyboard class.
