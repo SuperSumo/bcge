@@ -15,6 +15,7 @@ Window::Window(Manager* manager, string title, uint w, uint h):
 {
 	// Make sure this is the order of operations: window, glew, gl
 	// TODO: Set this to the user's refresh rate or primus gives errors
+	cout << "Window::Window()" << endl;
 	setFramerateLimit(60.0f);
 	create_window();
 }
@@ -36,6 +37,7 @@ void Window::resize(uint width, uint height)
 
 void Window::create_window()
 {
+	cout << "Window::create_window() Fullscreen? " << _isFullScreen << endl;
 	close();
 	if (_isFullScreen)
 		create(sf::VideoMode::getDesktopMode(), _title, sf::Style::Fullscreen);
@@ -49,13 +51,8 @@ void Window::create_window()
 	// Window Options - TODO: Load from a config file.
 	setVerticalSyncEnabled(true);
 
-	// Since the window was closed we need to re-initilize opengl and reload
-	// all the game stuff
-	_manager->get_renderer()->initialize();
-
-	// TODO: Write a method to reload the shaders. I'm not sure where it will
-	// go yet.
-	// _manager->get_renderer()->get_shader_manager()->reload()
+	// Reload the manager since a new OpenGL context was created.
+	_manager->reload();
 }
 
 void Window::toggle_fullscreen()

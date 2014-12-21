@@ -12,53 +12,17 @@ using namespace std;
 
 Manager::Manager():
 	_game(0),
-	_vShader(new Shader(GL_VERTEX_SHADER)),
-	_fShader(new Shader(GL_FRAGMENT_SHADER))
+	_mainLoopStarted(false)
 {
 	// Create the window first to get a valid OpenGL context
 	_window = new Window(this);
 
 	// Initialize OpenGL and a renderer, since an OpenGL context is open
 	_renderer = new Renderer(this);
-
-	// Load the game now that the window is created
-	load_game(new Game(this));
-
-	// Start the main loop
-	_main_loop();
-}
-
-void Manager::draw()
-{
-	// glColor3f(0.3f, 0.6f, 0.9f);
-	// glBegin(GL_POINTS);
-	// glVertex3f(0.0f, 0.0f, 0.0f);
-	// glEnd();
-
-	glUseProgram(_shaderProgID);
-
-	GLuint vboLoc = glGetAttribLocation(_shaderProgID, "inVertex");
-	GLuint cboLoc = glGetAttribLocation(_shaderProgID, "inColor");
-
-	glEnableVertexAttribArray(vboLoc);
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glVertexAttribPointer(vboLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glEnableVertexAttribArray(cboLoc);
-	glBindBuffer(GL_ARRAY_BUFFER, _cbo);
-	glVertexAttribPointer(cboLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glDrawArrays(GL_POINTS, 0, 1);
-
-	glDisableVertexAttribArray(vboLoc);
-	glDisableVertexAttribArray(cboLoc);
-	glUseProgram(0);
 }
 
 Manager::~Manager()
 {
-	delete _vShader;
-	delete _fShader;
 	delete _game;
 	delete _renderer;
 	delete _window;
@@ -66,12 +30,29 @@ Manager::~Manager()
 
 void Manager::load_game(Game* game)
 {
+	cout << "Manager::load_game()" << endl;
+
 	// Delete the current game
 	if (_game)
 		delete _game;
 
-	// Set the game
+	// Set and load the game
 	_game = game;
+	_game->load();
+
+	// Start the main loop if it isn't already running
+	if (!_mainLoopStarted)
+		_main_loop();
+}
+
+void Manager::reload()
+{
+	// Since the window was closed we need to re-initilize opengl and reload
+	// all the game stuff
+	cout << "Manager::reload()" << endl;
+	_renderer->initialize();
+	if (_game)
+		_game->load();
 }
 
 Game* Manager::get_game()
@@ -91,32 +72,10 @@ Renderer* Manager::get_renderer()
 
 void Manager::_main_loop()
 {
+	cout << "Manager::_main_loop" << endl;
 
-	////////////////
-	// TODO: MOVE ALL THIS CODE OUT OF HERE
-
-	// Load the model data. Delete this and move into a game loading thing.
-	float verts[3] = {0.0f, 0.0f, 0.0f};
-	float colors[3] = {0.3f, 0.6f, 0.9f};
-	glGenBuffers(1, &_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
-	glGenBuffers(1, &_cbo);
-	glBindBuffer(GL_ARRAY_BUFFER, _cbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-
-	// // TODO: I need to finish the shader manager first.
-	// //	_shaderManager->add_shader("vertex.glsl");
-	_vShader->load("shaders/vertex.glsl");
-	_fShader->load("shaders/fragment.glsl");
-
-	_shaderProgID = glCreateProgram();
-	glAttachShader(_shaderProgID, _vShader->get_id());
-	glAttachShader(_shaderProgID, _fShader->get_id());
-	glLinkProgram(_shaderProgID);
-
-	////////////////
-
+	// Don't restart the mainloop if a new game is loaded
+	_mainLoopStarted = true;
 
 	// "Perfect Main Loop" references:
 	// http://gafferongames.com/game-physics/fix-your-timestep/
@@ -169,6 +128,10 @@ void Manager::_handle_events()
 	{
 		switch (event.type)
 		{
+			case sf::Event::Closed:
+				_window->close();
+				break;
+
 			case sf::Event::Resized:
 				_window->resize(event.size.width, event.size.height);
 				break;

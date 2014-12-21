@@ -21,7 +21,7 @@ OUTFLAG = -o
 OBJEXT = .o
 OBJS := $(patsubst %.cpp,%$(OBJEXT),$(SRCS))
 
-MAIN = bcge2.exe
+MAIN = bcge.exe
 
 .PHONEY = all clean run
 

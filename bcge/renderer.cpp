@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "manager.h"
 #include "window.h"
+#include "abc/game.h"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ Renderer::Renderer(Manager* manager):
 
 void Renderer::initialize()
 {
+	cout << "Renderer::initialize()" << endl;
+
 	glewExperimental = GL_TRUE;
 	GLenum glew = glewInit();
 	if (glew != GLEW_OK)
@@ -31,9 +34,11 @@ void Renderer::initialize()
 
 void Renderer::render()
 {
+	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	_manager->draw();
+	// Draw the game
+	_manager->get_game()->draw();
 
 	// Swap the buffers
 	_manager->get_window()->display();

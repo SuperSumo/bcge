@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <SFML/Window.hpp>
+
 class Manager;
 class Keyboard;
 
@@ -14,17 +16,22 @@ class Game
 		Manager* get_manager();
 		Keyboard* get_keyboard();
 
-		void update(float dt);
-		void interp(float dt);
 		void toggle_pause();
 
-	private:
+		virtual void load();
+		virtual void update(float dt)=0;
+		virtual void interp(float dt)=0;
+		virtual void draw()=0;
 
-		Game();
+	protected:
 
 		Manager* _manager;
 		bool _isPaused;
 		Keyboard* _keyboard;
+
+	private:
+
+		Game();
 };
 
 #endif
