@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "game.h"
+#include "keyboard.h"
 #include "../manager.h"
-#include "../keyboard.h"
 
 using namespace std;
 

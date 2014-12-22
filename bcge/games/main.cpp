@@ -2,9 +2,9 @@
 #include <gl/glew.h>
 #include <SFML/Graphics.hpp>
 
-#include "../manager.h"
 #include "main.h"
-#include "../keyboard.h"
+#include "../manager.h"
+#include "../abc/keyboard.h"
 
 using namespace std;
 
