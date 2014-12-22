@@ -2,7 +2,9 @@
 #include <gl/glew.h>
 #include <SFML/Graphics.hpp>
 
-#include "game_main.h"
+#include "../manager.h"
+#include "main.h"
+#include "../keyboard.h"
 
 using namespace std;
 
@@ -25,8 +27,10 @@ void GameMain::load()
 {
 	cout << "GameMain::load()" << endl;
 
-	// TODO: MOVE ALL THIS CODE OUT OF HERE
+	// Load the keyboard for this game
+	_keyboard = new Keyboard(this);
 
+	// TODO: MOVE ALL THIS CODE OUT OF HERE
 	if (_vShader)
 		delete _vShader;
 	if (_fShader)

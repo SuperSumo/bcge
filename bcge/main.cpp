@@ -1,5 +1,5 @@
 #include "manager.h"
-#include "game_main.h"
+#include "games/main.h"
 
 int main(int argc, char** argv)
 {

@@ -1,19 +1,20 @@
 #ifndef GAME_MAIN_H
 #define GAME_MAIN_H
 
-#include "abc/game.h"
-#include "manager.h"
-
 #include <gl/glew.h>
 #include <SFML/Graphics.hpp>
-#include "shader.h"
+
+#include "../abc/game.h"
+#include "../shader.h"
+
+class Manager;
 
 class GameMain: public Game
 {
 	public:
 
 		GameMain(Manager* manager);
-		~GameMain();
+		virtual ~GameMain();
 
 		virtual void load();
 		virtual void update(float dt);

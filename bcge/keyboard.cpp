@@ -70,4 +70,7 @@ void Keyboard::check_keys(float dt)
 // In _check_keys, create a loop until the queue is empty. In the loop call
 // key_action for each item in the queue. Create a virtual method key_action
 // which takes a (pair<key,state>, dt) and override that method in each derived
-// keyboard class.
+// keyboard class. Make a flip/flip FIFO queue. Make an empty queue for keys I
+// want to check again next tick. If I want a key to be held down (movement)
+// then add it to the temporary queue with the same state. At the end of the
+// function, flip the queues.

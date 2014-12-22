@@ -1,3 +1,7 @@
+// TODO: Make this an ABC and create a derived keyboard class for the current
+// game. Also, I think I want to make a folder for each game and put the
+// derived classes in there.
+
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
@@ -11,7 +15,7 @@ class Keyboard
 	public:
 
 		Keyboard(Game* game);
-		~Keyboard();
+		virtual ~Keyboard();
 
 		Game* get_game();
 

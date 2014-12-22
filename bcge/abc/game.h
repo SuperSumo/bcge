@@ -11,7 +11,7 @@ class Game
 	public:
 
 		Game(Manager* manager);
-		~Game();
+		virtual ~Game();
 
 		Manager* get_manager();
 		Keyboard* get_keyboard();

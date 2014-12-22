@@ -14,6 +14,7 @@ LIBS = -lsfml-window -lsfml-system -lGL -lGLU -lGLEW
 
 SRCS = $(wildcard *.cpp)
 SRCS += $(wildcard abc/*.cpp)
+SRCS += $(wildcard games/*.cpp)
 # SRCS += $(wildcard instances/*.cpp)
 # SRCS += $(wildcard objects/*.cpp)
 
