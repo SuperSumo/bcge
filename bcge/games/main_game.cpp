@@ -41,7 +41,7 @@ void MainGame::load()
 		delete _shaderProg;
 	_vShader = new Shader(GL_VERTEX_SHADER);
 	_fShader = new Shader(GL_FRAGMENT_SHADER);
-	_shaderProg = new ShaderProg("hi");
+	_shaderProg = new ShaderProg();
 
 	// Load the model data. Delete this and move into a game loading thing.
 	float verts[3] = {0.0f, 0.0f, 0.0f};

@@ -22,26 +22,23 @@ class ShaderProg
 {
 	public:
 
-		ShaderProg(string name);
+		ShaderProg();
 		~ShaderProg();
 
 		bool add_shader(Shader* shader);
 		bool compile();
 		GLuint get_id();
-		string get_name();
 		GLuint get_attribute(string attributeName);
 		GLuint get_uniform(string uniformName);
 
 	private:
 
-		ShaderProg();
 		void _print_log();
 		bool _attribute_exists(string name);
 		bool _uniform_exists(string name);
 		bool _make_attributes();
 		bool _make_uniforms();
 		GLuint _id;
-		string _name;
 		ShaderMap _shaders;
 		AttributeMap _attributes;
 		UniformMap _uniforms;

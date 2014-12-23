@@ -11,13 +11,14 @@
 
 using namespace std;
 
-ShaderProg::ShaderProg(string name):
-		_id(-1), _name(name)
+ShaderProg::ShaderProg():
+	_id(-1)
 {}
 
 ShaderProg::~ShaderProg()
-	// If you are a part of the shader manager, remove yourself
-{}
+{
+	// MAYBE: If you are a part of the shader manager, remove yourself
+}
 
 bool ShaderProg::add_shader(Shader* shader)
 {
@@ -184,11 +185,6 @@ GLuint ShaderProg::get_uniform(string name)
 GLuint ShaderProg::get_id()
 {
 	return _id;
-}
-
-string ShaderProg::get_name()
-{
-    return _name;
 }
 
 void ShaderProg::_print_log()

@@ -68,8 +68,7 @@ int ShaderManager::add_shader(type, filename)
     return _shaders[filename]->load_from_file(filename);
 }
 
-int ShaderManager::add_shader_prog(string shaderProgName,
-vector<string> shaderNames)
+int ShaderManager::add_shader_prog(string shaderProgName, vector<string> shaderNames)
 {
     _shaderProgs[shaderProgName] = new ShaderProg();
     for shaderName in shaderNames:
