@@ -1,5 +1,5 @@
 #include "manager.h"
-#include "games/main.h"
+#include "games/main_game.h"
 
 int main(int argc, char** argv)
 {
@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 	Manager manager;
 
 	// Create a new Game object
-	Game* initialGame = new GameMain(&manager);
+	Game* initialGame = new MainGame(&manager);
 
 	// Load the game into the manager which gets ownership of the pointer.
 	manager.load_game(initialGame);

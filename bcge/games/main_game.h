@@ -1,5 +1,5 @@
-#ifndef GAME_MAIN_H
-#define GAME_MAIN_H
+#ifndef MAIN_GAME_H
+#define MAIN_GAME_H
 
 #include <gl/glew.h>
 #include <SFML/Graphics.hpp>
@@ -9,12 +9,12 @@
 
 class Manager;
 
-class GameMain: public Game
+class MainGame: public Game
 {
 	public:
 
-		GameMain(Manager* manager);
-		virtual ~GameMain();
+		MainGame(Manager* manager);
+		virtual ~MainGame();
 
 		virtual void load();
 		virtual void update(float dt);
@@ -23,7 +23,7 @@ class GameMain: public Game
 
 	private:
 
-		GameMain();
+		MainGame();
 
 		// TODO: Delete all of this stuff
 		GLuint _vbo;

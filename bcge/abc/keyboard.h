@@ -5,9 +5,6 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include <queue>
-#include <utility>
-
 #include <gl/glew.h>
 #include <SFML/Window.hpp>
 
@@ -20,15 +17,6 @@ enum KeyState
 	KEY_UP = 2
 };
 
-// struct Key
-// {
-// 	Key(sf::Keyboard::Key code, KeyState state): code(code), state(state) {}
-// 	sf::Keyboard::Key code;
-// 	KeyState state;
-// };
-
-// typedef queue<Key> KeyQueue;
-
 class Game;
 
 class Keyboard
@@ -36,23 +24,19 @@ class Keyboard
 	public:
 
 		Keyboard(Game* game);
-		~Keyboard();
+		virtual ~Keyboard();
 
 		Game* get_game();
 
 		void key_pressed(sf::Keyboard::Key key);
 		void key_released(sf::Keyboard::Key key);
 		void _check_keys(float dt);
-		virtual void check_key(sf::Keyboard::Key key, KeyState state, float dt);
+		virtual void check_key(sf::Keyboard::Key key, KeyState state, float dt)=0;
 
 	protected:
 
 		Game* _game;
 		KeyState* _keys;
-		// KeyQueue _keyQueues[2];
-		// size_t _queueIndex;
-		// KeyQueue* _eventQueue;
-		// KeyQueue* _keyQueue;
 
 	private:
 

@@ -100,33 +100,35 @@ void Manager::_main_loop()
 		// Update the times and escape the "spiral of death"
 		newTime = clock.getElapsedTime().asSeconds();
 		frameTime = newTime - currentTime;
-		float avoidSpiral = dt * 10;
+		float avoidSpiral = DT * 10;
 		if (frameTime > avoidSpiral)
 			frameTime = avoidSpiral;
 		currentTime = newTime;
 		accumulator += frameTime;
 
-		// Only update the physics every dt seconds.
-		while (accumulator >= dt)
+		// Only update the physics every DT seconds.
+		while (accumulator >= DT)
 		{
 			// Do the physics simulation: collision detection, etc.
-			_game->update(dt);
-			accumulator -= dt;
+			_game->update(DT);
+			accumulator -= DT;
 		}
 
 		// Handle user input
 		_handle_events();
 
 		// Check the held down keys
-		_game->get_keyboard()->_check_keys(dt);
+		_game->get_keyboard()->_check_keys(DT);
 
 		// Just interpolate the physics simulation. Should be very fast.
-		_game->interp(accumulator / dt);
+		_game->interp(accumulator / DT);
 
 		// Draw the current state of everything.
 		_renderer->render();
 	}
-	cout << "DONE!" << endl;
+
+	// When we quit we need to close the window
+	_window->close();
 }
 
 void Manager::_handle_events()

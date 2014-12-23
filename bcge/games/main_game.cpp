@@ -2,33 +2,33 @@
 #include <gl/glew.h>
 #include <SFML/Graphics.hpp>
 
-#include "main.h"
+#include "main_game.h"
+#include "main_keyboard.h"
 #include "../manager.h"
-#include "../abc/keyboard.h"
 
 using namespace std;
 
-GameMain::GameMain(Manager* manager):
+MainGame::MainGame(Manager* manager):
 	Game(manager),
 	_vbo(0), _cbo(0), _shaderProgID(0),
 	_vShader(0),
 	_fShader(0)
 {
-	cout << "GameMain::GameMain()" << endl;
+	cout << "MainGame::MainGame()" << endl;
 }
 
-GameMain::~GameMain()
+MainGame::~MainGame()
 {
 	delete _vShader;
 	delete _fShader;
 }
 
-void GameMain::load()
+void MainGame::load()
 {
-	cout << "GameMain::load()" << endl;
+	cout << "MainGame::load()" << endl;
 
 	// Load the keyboard for this game
-	_keyboard = new Keyboard(this);
+	_keyboard = new MainKeyboard(this);
 
 	// TODO: MOVE ALL THIS CODE OUT OF HERE
 	if (_vShader)
@@ -50,8 +50,8 @@ void GameMain::load()
 
 	// // TODO: I need to finish the shader manager first.
 	// //	_shaderManager->add_shader("vertex.glsl");
-	_vShader->load("shaders/vertex.glsl");
-	_fShader->load("shaders/fragment.glsl");
+	_vShader->load("shaders/vertex.glsl"); // Relative to main.cpp
+	_fShader->load("shaders/fragment.glsl"); // Relative to main.cpp
 
 	_shaderProgID = glCreateProgram();
 	glAttachShader(_shaderProgID, _vShader->get_id());
@@ -59,23 +59,22 @@ void GameMain::load()
 	glLinkProgram(_shaderProgID);
 }
 
-void GameMain::update(float dt)
+void MainGame::update(float dt)
 {
 	// Update the physics. Simulate.
-	cout << dt << " GameMain::update() " << _isPaused << endl;
+	// Do <current_state> += DT
+	// and also <interp_state> = <current_state>
+	// cout << dt << " MainGame::update() " << _isPaused << endl;
 }
 
-void GameMain::interp(float dt)
+void MainGame::interp(float dt)
 {
 	// Interpolate the physics. Don't simulate.
-
-	// if (!_isPaused)
-	// 		cout << dt << " interp - running" << endl;
-	// 	else
-	// 		cout << dt << " interp - paused" << endl;
+	// Do <interp_state> += DT
+	// cout << dt << " MainGame::interp() " << _isPaused << endl;
 }
 
-void GameMain::draw()
+void MainGame::draw()
 {
 	// glColor3f(0.3f, 0.6f, 0.9f);
 	// glBegin(GL_POINTS);
