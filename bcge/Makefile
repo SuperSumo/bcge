@@ -35,10 +35,10 @@ clean:
 	rm -rf $(MAIN) $(OBJS)
 
 run: all
-	LD_LIBRARY_PATH=/home/dgleason/dev/lib/glew-1.11.0/lib/ ./$(MAIN)
+	./$(MAIN)
 
 optirun: all
-	LD_LIBRARY_PATH=/home/dgleason/dev/lib/glew-1.11.0/lib/ optirun ./$(MAIN)
+	optirun ./$(MAIN)
 
 %.o : %.cpp
 	$(COMPILER) $(COMPFLAGS) $(INCLUDES) $< $(OUTFLAG) $@

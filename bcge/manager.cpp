@@ -5,14 +5,15 @@
 #include "abc/game.h"
 #include "renderer.h"
 #include "window.h"
-#include "keyboard.h"
+#include "abc/keyboard.h"
 #include "defines_constants_typedefs.h"
 
 using namespace std;
 
 Manager::Manager():
 	_game(0),
-	_mainLoopStarted(false)
+	_mainLoopStarted(false),
+	_isRunning(false)
 {
 	// Create the window first to get a valid OpenGL context
 	_window = new Window(this);
@@ -26,6 +27,11 @@ Manager::~Manager()
 	delete _game;
 	delete _renderer;
 	delete _window;
+}
+
+void Manager::quit()
+{
+	_isRunning = false;
 }
 
 void Manager::load_game(Game* game)
@@ -88,7 +94,8 @@ void Manager::_main_loop()
 	float frameTime = 0.0f;
 
 	// Keep the manager alive until we are done
-	while (_window->isOpen())
+	_isRunning = true;
+	while (_isRunning)
 	{
 		// Update the times and escape the "spiral of death"
 		newTime = clock.getElapsedTime().asSeconds();
@@ -111,7 +118,7 @@ void Manager::_main_loop()
 		_handle_events();
 
 		// Check the held down keys
-		_game->get_keyboard()->check_keys(dt);
+		_game->get_keyboard()->_check_keys(dt);
 
 		// Just interpolate the physics simulation. Should be very fast.
 		_game->interp(accumulator / dt);
@@ -119,6 +126,7 @@ void Manager::_main_loop()
 		// Draw the current state of everything.
 		_renderer->render();
 	}
+	cout << "DONE!" << endl;
 }
 
 void Manager::_handle_events()
@@ -129,7 +137,7 @@ void Manager::_handle_events()
 		switch (event.type)
 		{
 			case sf::Event::Closed:
-				_window->close();
+				quit();
 				break;
 
 			case sf::Event::Resized:

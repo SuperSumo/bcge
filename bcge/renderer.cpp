@@ -16,6 +16,7 @@ void Renderer::initialize()
 {
 	cout << "Renderer::initialize()" << endl;
 
+	// Initialize GLEW
 	glewExperimental = GL_TRUE;
 	GLenum glew = glewInit();
 	if (glew != GLEW_OK)
@@ -24,6 +25,7 @@ void Renderer::initialize()
 		_manager->get_window()->close();
 	}
 
+	// Misc OpenGL settings which will change later.
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);

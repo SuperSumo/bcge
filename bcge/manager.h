@@ -12,6 +12,8 @@ class Manager
 		Manager();
 		~Manager();
 
+		void quit();
+
 		void load_game(Game* gameToSet);
 		void reload();
 
@@ -28,6 +30,7 @@ class Manager
 		Renderer* _renderer;
 		Game* _game;
 		bool _mainLoopStarted;
+		bool _isRunning;
 };
 
 #endif

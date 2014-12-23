@@ -48,9 +48,6 @@ void Window::create_window()
 	// typing I can turn this on again.
 	setKeyRepeatEnabled(false);
 
-	// Window Options - TODO: Load from a config file.
-	setVerticalSyncEnabled(true);
-
 	// Reload the manager since a new OpenGL context was created.
 	_manager->reload();
 }

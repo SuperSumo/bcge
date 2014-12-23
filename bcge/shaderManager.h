@@ -15,6 +15,7 @@ class ShaderManager
 
 		ShaderManager();
 		~ShaderManager();
+
 		bool reload();
 		bool add_shader(GLenum type, string filename);
 		bool add_shaderProg(string progName, StringVec shaderFilenames);
