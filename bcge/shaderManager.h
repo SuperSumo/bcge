@@ -42,16 +42,13 @@ ShaderManager::ShaderManager()
 
 ShaderManager::reload()
 {
-    // Reload all the shaders and recompile the shaderprogs. I need
-this because when
-    // I toggle fullscreen (creating a window) I will lose the OpenGL
-context, and all
+    // Reload all the shaders and recompile the shaderprogs. I need this because when
+    // I toggle fullscreen (creating a window) I will lose the OpenGL context, and all
     // the shaders and programs with it.
 
-    // I need to save the current ShaderProgs. Make a map<string,
-vector<string> >
-    //    of shaderProgName:<shaders> so I can re-create the programs after
-    //    reloading the shaders
+    // I need to save the current ShaderProgs. Make a map<string,vector<string> >
+    // of shaderProgName:<shaders> so I can re-create the programs after
+    // reloading the shaders
     shaderProgMap = map<string, vector<string> >;
     for shaderProg in shaderProgs:
         shaderProgMap[shaderProg->get_name()] = shaderProg->get_shader_names();

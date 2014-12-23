@@ -10,9 +10,10 @@ using namespace std;
 
 MainGame::MainGame(Manager* manager):
 	Game(manager),
-	_vbo(0), _cbo(0), _shaderProgID(0),
+	_vbo(0), _cbo(0),
 	_vShader(0),
-	_fShader(0)
+	_fShader(0),
+	_shaderProg(0)
 {
 	cout << "MainGame::MainGame()" << endl;
 }
@@ -21,6 +22,7 @@ MainGame::~MainGame()
 {
 	delete _vShader;
 	delete _fShader;
+	delete _shaderProg;
 }
 
 void MainGame::load()
@@ -35,8 +37,11 @@ void MainGame::load()
 		delete _vShader;
 	if (_fShader)
 		delete _fShader;
+	if (_shaderProg)
+		delete _shaderProg;
 	_vShader = new Shader(GL_VERTEX_SHADER);
 	_fShader = new Shader(GL_FRAGMENT_SHADER);
+	_shaderProg = new ShaderProg("hi");
 
 	// Load the model data. Delete this and move into a game loading thing.
 	float verts[3] = {0.0f, 0.0f, 0.0f};
@@ -53,10 +58,9 @@ void MainGame::load()
 	_vShader->load("shaders/vertex.glsl"); // Relative to main.cpp
 	_fShader->load("shaders/fragment.glsl"); // Relative to main.cpp
 
-	_shaderProgID = glCreateProgram();
-	glAttachShader(_shaderProgID, _vShader->get_id());
-	glAttachShader(_shaderProgID, _fShader->get_id());
-	glLinkProgram(_shaderProgID);
+	_shaderProg->add_shader(_vShader);
+	_shaderProg->add_shader(_fShader);
+	_shaderProg->compile();
 }
 
 void MainGame::update(float dt)
@@ -76,15 +80,10 @@ void MainGame::interp(float dt)
 
 void MainGame::draw()
 {
-	// glColor3f(0.3f, 0.6f, 0.9f);
-	// glBegin(GL_POINTS);
-	// glVertex3f(0.0f, 0.0f, 0.0f);
-	// glEnd();
+	glUseProgram(_shaderProg->get_id());
 
-	glUseProgram(_shaderProgID);
-
-	GLuint vboLoc = glGetAttribLocation(_shaderProgID, "inVertex");
-	GLuint cboLoc = glGetAttribLocation(_shaderProgID, "inColor");
+	GLuint vboLoc = _shaderProg->get_attribute("inVertex");
+	GLuint cboLoc = _shaderProg->get_attribute("inColor");
 
 	glEnableVertexAttribArray(vboLoc);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
