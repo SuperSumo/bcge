@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SFML/Window.hpp>
+#include "../shaderManager.h"
 
 class Manager;
 class Keyboard;
@@ -28,6 +29,7 @@ class Game
 		Manager* _manager;
 		bool _isPaused;
 		Keyboard* _keyboard;
+		ShaderManager shaderManager;
 
 	private:
 

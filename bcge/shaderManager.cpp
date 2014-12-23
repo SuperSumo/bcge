@@ -12,6 +12,12 @@ bool ShaderManager::reload()
 {
 	// Reload all the shaders
 	// Reload all the shader progs
+
+
+	// Delete this line once I get reload working
+	_purge();
+
+
 	return true;
 }
 

@@ -5,8 +5,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "../abc/game.h"
-#include "../shader.h"
-#include "../shaderProg.h"
 
 class Manager;
 
@@ -29,9 +27,6 @@ class MainGame: public Game
 		// TODO: Delete all of this stuff
 		GLuint _vbo;
 		GLuint _cbo;
-		Shader* _vShader;
-		Shader* _fShader;
-		ShaderProg* _shaderProg;
 
 };
 

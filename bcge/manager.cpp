@@ -128,6 +128,7 @@ void Manager::_main_loop()
 	}
 
 	// When we quit we need to close the window
+	_handle_events();
 	_window->close();
 }
 

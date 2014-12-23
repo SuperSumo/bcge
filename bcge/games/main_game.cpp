@@ -2,28 +2,24 @@
 #include <gl/glew.h>
 #include <SFML/Graphics.hpp>
 
+#include "../defines_constants_typedefs.h"
+#include "../manager.h"
+#include "../shaderProg.h"
+#include "../shaderManager.h"
 #include "main_game.h"
 #include "main_keyboard.h"
-#include "../manager.h"
 
 using namespace std;
 
 MainGame::MainGame(Manager* manager):
 	Game(manager),
-	_vbo(0), _cbo(0),
-	_vShader(0),
-	_fShader(0),
-	_shaderProg(0)
+	_vbo(0), _cbo(0)
 {
 	cout << "MainGame::MainGame()" << endl;
 }
 
 MainGame::~MainGame()
-{
-	delete _vShader;
-	delete _fShader;
-	delete _shaderProg;
-}
+{}
 
 void MainGame::load()
 {
@@ -31,17 +27,6 @@ void MainGame::load()
 
 	// Load the keyboard for this game
 	_keyboard = new MainKeyboard(this);
-
-	// TODO: MOVE ALL THIS CODE OUT OF HERE
-	if (_vShader)
-		delete _vShader;
-	if (_fShader)
-		delete _fShader;
-	if (_shaderProg)
-		delete _shaderProg;
-	_vShader = new Shader(GL_VERTEX_SHADER);
-	_fShader = new Shader(GL_FRAGMENT_SHADER);
-	_shaderProg = new ShaderProg();
 
 	// Load the model data. Delete this and move into a game loading thing.
 	float verts[3] = {0.0f, 0.0f, 0.0f};
@@ -53,14 +38,18 @@ void MainGame::load()
 	glBindBuffer(GL_ARRAY_BUFFER, _cbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
-	// // TODO: I need to finish the shader manager first.
-	// //	_shaderManager->add_shader("vertex.glsl");
-	_vShader->load("shaders/vertex.glsl"); // Relative to main.cpp
-	_fShader->load("shaders/fragment.glsl"); // Relative to main.cpp
+	shaderManager.reload();
+	shaderManager.add_shader(GL_VERTEX_SHADER, "shaders/vertex.glsl");
+	shaderManager.add_shader(GL_FRAGMENT_SHADER, "shaders/fragment.glsl");
 
-	_shaderProg->add_shader(_vShader);
-	_shaderProg->add_shader(_fShader);
-	_shaderProg->compile();
+	StringVec shaderNames;
+	shaderNames.push_back("shaders/vertex.glsl");
+	shaderNames.push_back("shaders/fragment.glsl");
+	shaderManager.add_shaderProg("test", shaderNames);
+
+	// _shaderProg->add_shader(_vShader);
+	// _shaderProg->add_shader(_fShader);
+	// _shaderProg->compile();
 }
 
 void MainGame::update(float dt)
@@ -80,10 +69,11 @@ void MainGame::interp(float dt)
 
 void MainGame::draw()
 {
-	glUseProgram(_shaderProg->get_id());
+	ShaderProg* shaderProg = shaderManager.get_shaderProg("test");
+	glUseProgram(shaderProg->get_id());
 
-	GLuint vboLoc = _shaderProg->get_attribute("inVertex");
-	GLuint cboLoc = _shaderProg->get_attribute("inColor");
+	GLuint vboLoc = shaderProg->get_attribute("inVertex");
+	GLuint cboLoc = shaderProg->get_attribute("inColor");
 
 	glEnableVertexAttribArray(vboLoc);
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
