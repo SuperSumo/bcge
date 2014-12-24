@@ -38,18 +38,19 @@ void MainGame::load()
 	glBindBuffer(GL_ARRAY_BUFFER, _cbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
-	shaderManager.reload();
+	// Clear out the shaderManager
+	shaderManager.clear();
+
+	// Load the shaders
 	shaderManager.add_shader(GL_VERTEX_SHADER, "shaders/vertex.glsl");
 	shaderManager.add_shader(GL_FRAGMENT_SHADER, "shaders/fragment.glsl");
 
+	// Load the shaderProgs
 	StringVec shaderNames;
 	shaderNames.push_back("shaders/vertex.glsl");
 	shaderNames.push_back("shaders/fragment.glsl");
 	shaderManager.add_shaderProg("test", shaderNames);
 
-	// _shaderProg->add_shader(_vShader);
-	// _shaderProg->add_shader(_fShader);
-	// _shaderProg->compile();
 }
 
 void MainGame::update(float dt)

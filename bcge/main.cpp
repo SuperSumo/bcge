@@ -12,6 +12,8 @@ int main(int argc, char** argv)
 	// Load the game into the manager which gets ownership of the pointer.
 	manager.load_game(initialGame);
 
+	cout << "main - returning" << endl;
+
 	// We will return when the manager is done
 	return 0;
 }

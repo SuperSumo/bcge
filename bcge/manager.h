@@ -31,6 +31,7 @@ class Manager
 		Game* _game;
 		bool _mainLoopStarted;
 		bool _isRunning;
+		bool _isLoading; // Don't draw until finished loading
 };
 
 #endif

@@ -1,27 +1,11 @@
 #include "shaderManager.h"
 
-ShaderManager::ShaderManager()
-{}
-
 ShaderManager::~ShaderManager()
 {
-	_purge();
+	clear();
 }
 
-bool ShaderManager::reload()
-{
-	// Reload all the shaders
-	// Reload all the shader progs
-
-
-	// Delete this line once I get reload working
-	_purge();
-
-
-	return true;
-}
-
-void ShaderManager::_purge()
+void ShaderManager::clear()
 {
 	// Delete each shaderProg first
 	ShaderProgMap::iterator i;

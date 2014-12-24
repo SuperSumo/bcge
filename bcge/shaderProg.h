@@ -23,7 +23,6 @@ class ShaderProg
 	public:
 
 		ShaderProg();
-		~ShaderProg();
 
 		bool add_shader(Shader* shader);
 		bool compile();

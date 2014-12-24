@@ -15,11 +15,6 @@ ShaderProg::ShaderProg():
 	_id(-1)
 {}
 
-ShaderProg::~ShaderProg()
-{
-	// MAYBE: If you are a part of the shader manager, remove yourself
-}
-
 bool ShaderProg::add_shader(Shader* shader)
 {
 	// Ownership of the shader object is in the shader manager
@@ -34,11 +29,6 @@ bool ShaderProg::add_shader(Shader* shader)
 
 bool ShaderProg::compile()
 {
-	// TODO: I think I might want to ensure at least vertex and fragment shaders
-	// are present for a ShaderProg to compiler correctly. Otherwise, what's the
-	// point of having one? I would need to check the type while I go through
-	// attaching the shaders.
-
 	// If the program exists, delete it
 	if (_id != -1) glDeleteProgram(_id);
 

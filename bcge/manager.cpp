@@ -13,7 +13,8 @@ using namespace std;
 Manager::Manager():
 	_game(0),
 	_mainLoopStarted(false),
-	_isRunning(false)
+	_isRunning(false),
+	_isLoading(false)
 {
 	// Create the window first to get a valid OpenGL context
 	_window = new Window(this);
@@ -32,6 +33,7 @@ Manager::~Manager()
 void Manager::quit()
 {
 	_isRunning = false;
+	_isLoading = false;
 }
 
 void Manager::load_game(Game* game)
@@ -44,11 +46,13 @@ void Manager::load_game(Game* game)
 
 	// Set and load the game
 	_game = game;
-	_game->load();
+	reload();
 
 	// Start the main loop if it isn't already running
 	if (!_mainLoopStarted)
 		_main_loop();
+
+	cout << "Manager::load_game - returning" << endl;
 }
 
 void Manager::reload()
@@ -56,9 +60,19 @@ void Manager::reload()
 	// Since the window was closed we need to re-initilize opengl and reload
 	// all the game stuff
 	cout << "Manager::reload()" << endl;
+
+	// Don't draw
+	_isLoading = true;
+
+	// Re-initialize the renderer
 	_renderer->initialize();
+
+	// Reload the game
 	if (_game)
 		_game->load();
+
+	// Draw agan
+	_isLoading = false;
 }
 
 Game* Manager::get_game()
@@ -124,12 +138,15 @@ void Manager::_main_loop()
 		_game->interp(accumulator / DT);
 
 		// Draw the current state of everything.
-		_renderer->render();
+		if (!_isLoading)
+			_renderer->render();
 	}
 
 	// When we quit we need to close the window
 	_handle_events();
 	_window->close();
+
+	cout << "Manager::_main_loop - returning" << endl;
 }
 
 void Manager::_handle_events()
