@@ -1,10 +1,12 @@
 #ifndef MAIN_GAME_H
 #define MAIN_GAME_H
 
-#include <gl/glew.h>
-#include <SFML/Graphics.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "../abc/game.h"
+#include "../buffer.h"
 
 class Manager;
 
@@ -25,8 +27,14 @@ class MainGame: public Game
 		MainGame();
 
 		// TODO: Delete all of this stuff
-		GLuint _vbo;
-		GLuint _cbo;
+		// GLuint _vbo;
+		// GLuint _cbo;
+		Buffer* _vbo;
+		Buffer* _cbo;
+		Buffer* _ibo;
+		float _fov, _nearView, _farView;
+		glm::mat4 _projection, _view;
+		glm::vec3 _rotV, _pos;
 
 };
 

@@ -21,8 +21,10 @@ class Window: public sf::Window
 		Manager* get_manager();
 
 		void create_window();
-		void resize(uint width, uint height);
 		void toggle_fullscreen();
+		void resize(uint width, uint height);
+		uint width();
+		uint height();
 
 	private:
 
@@ -33,6 +35,7 @@ class Window: public sf::Window
 		uint _height;
 		string _title;
 		bool _isFullScreen;
+		sf::VideoMode _fullScreenMode;
 };
 
 #endif

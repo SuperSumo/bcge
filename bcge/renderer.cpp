@@ -27,11 +27,15 @@ void Renderer::initialize()
 
 	// Misc OpenGL settings which will change later.
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	// glEnable(GL_CULL_FACE);
+	// glCullFace(GL_BACK);
 	glLineWidth(5.0f);
 	glPointSize(10.0f);
-	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST); // I need this line for things to work
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_INDEX_ARRAY);
+	// glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::render()

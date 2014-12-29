@@ -11,7 +11,7 @@ using namespace std;
 
 Window::Window(Manager* manager, string title, uint w, uint h):
 	sf::Window(), _manager(manager), _width(w), _height(h), _title(title),
-	_isFullScreen(false)
+	_isFullScreen(false), _fullScreenMode(sf::VideoMode::getDesktopMode())
 {
 	// Make sure this is the order of operations: window, glew, gl
 	// TODO: Set this to the user's refresh rate or primus gives errors
@@ -40,7 +40,7 @@ void Window::create_window()
 	cout << "Window::create_window() Fullscreen? " << _isFullScreen << endl;
 	close();
 	if (_isFullScreen)
-		create(sf::VideoMode::getDesktopMode(), _title, sf::Style::Fullscreen);
+		create(_fullScreenMode, _title, sf::Style::Fullscreen);
 	else
 		create(sf::VideoMode(_width, _height), _title);
 
@@ -56,4 +56,14 @@ void Window::toggle_fullscreen()
 {
 	_isFullScreen = !_isFullScreen;
 	create_window();
+}
+
+uint Window::width()
+{
+	return _isFullScreen ? _fullScreenMode.width : _width;
+}
+
+uint Window::height()
+{
+	return _isFullScreen ? _fullScreenMode.height : _height;
 }
