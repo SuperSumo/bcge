@@ -18,7 +18,7 @@ using namespace std;
 
 MainGame::MainGame(Manager* manager):
 	Game(manager), _fov(45.0f), _nearView(0.1f), _farView(100.0f),
-	_rotV(glm::vec3(0,0,0)), _pos(glm::vec3(0,0,-4))
+	_rotV(glm::vec3(2,3,1)), _pos(glm::vec3(0,0,-4))
 {
 	cout << "MainGame::MainGame()" << endl;
 	_vbo = new Buffer(VBO, GL_FLOAT);
@@ -41,8 +41,6 @@ void MainGame::load()
 	cout << "MainGame::load()" << endl;
 
 	// Load the model data. Delete this and move into a game loading thing.
-	// float vertices[3] = {0.0f, 0.0f, 0.0f};
-	// float colors[4] = {0.3f, 0.6f, 0.9f, 1.0f};
 
 	/* A cube's vertices
 	 *    7----6
@@ -77,32 +75,6 @@ void MainGame::load()
 		0,1,1,0.5f	// 7
 	};
 
-	// GLfloat vertices[] =
-	// {
-	// 	0.75f,	-0.25f,	-0.25f,	// 0
-	// 	0.75f,	0.25f,	-0.25f,	// 1
-	// 	1.25f,	0.25f,	-0.25f,	// 2
-	// 	1.25f,	-0.25f,	-0.25f,	// 3
-	// 	0.75f,	-0.25f,	0.25f,	// 4
-	// 	1.25f,	-0.25f,	0.25f,	// 5
-	// 	1.25f,	0.25f,	0.25f,	// 6
-	// 	0.75f,	0.25f,	0.25f	// 7
-	// };
-
-	// GLfloat vertices[] =
-	// {
-	// 	0.0f,	0.0f,	0.0f,	// 0
-	// 	1.0f,	0.0f,	0.0f,	// 1
-	// 	0.0f,	1.0f,	0.0f	// 2
-	// };
-
-	// GLfloat colors[] =
-	// {
-	// 	1,0,0,1,	// 0
-	// 	0,1,0,1,	// 1
-	// 	0,0,1,1		// 2
-	// };
-
 	GLuint indices[] =
 	{
 		0,1,2, 0,2,3,	// Front
@@ -113,26 +85,14 @@ void MainGame::load()
 		5,4,0, 5,0,3	// Bottom
 	};
 
-	// GLuint indices[] = {0,1,2};
-
 	bool allGood = true;
 	allGood &= _vbo->load(vertices, sizeof(vertices));
 	allGood &= _cbo->load(colors, sizeof(colors));
 	allGood &= _ibo->load(indices, sizeof(indices));
 
-	// allGood &= _vbo->load(verts, sizeof(verts));
-	// allGood &= _cbo->load(color, sizeof(color));
-
 	cout << "BUFFERS LOADED? " << allGood << endl;
 	if (!allGood)
 		_manager->quit();
-
-	// glGenBuffers(1, &_vbo);
-	// glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
-	// glGenBuffers(1, &_cbo);
-	// glBindBuffer(GL_ARRAY_BUFFER, _cbo);
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
 	// Clear out the shaderManager
 	shaderManager.clear();
@@ -157,9 +117,6 @@ void MainGame::load()
 	cout << "width: " << w << "\nheight: " << h << endl;
 	_projection = glm::perspective(_fov, float(w)/h, _nearView, _farView);
 	_view = glm::translate(glm::mat4(1.0f), _pos);
-	_view = glm::rotate(_view, 15.0f, glm::vec3(-1.0f, 0.0f, 0.0f));
-	_view = glm::rotate(_view, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-	_view = glm::rotate(_view, 5.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 void MainGame::update(float dt)
@@ -167,14 +124,27 @@ void MainGame::update(float dt)
 	// Update the physics. Simulate.
 	// Do <current_state> += DT
 	// and also <interp_state> = <current_state>
-	// cout << dt << " MainGame::update() " << _isPaused << endl;
+	cout << dt << " MainGame::update() " << _isPaused << endl;
+	// _view = glm::translate(glm::mat4(1.0f), _pos);
+	_view = glm::rotate(_view, dt, _rotV);
+	ShaderProg* shaderProg = shaderManager.get_shaderProg("test");
+	glUseProgram(shaderProg->get_id());
+	GLuint viewID = shaderProg->get_uniform("view");
+	glUniformMatrix4fv(viewID, 1, false, glm::value_ptr(_view));
+	glUseProgram(0);
 }
 
 void MainGame::interp(float dt)
 {
 	// Interpolate the physics. Don't simulate.
 	// Do <interp_state> += DT
-	// cout << dt << " MainGame::interp() " << _isPaused << endl;
+	glm::mat4 interpView = glm::rotate(_view, dt, _rotV);
+	ShaderProg* shaderProg = shaderManager.get_shaderProg("test");
+	glUseProgram(shaderProg->get_id());
+	GLuint viewID = shaderProg->get_uniform("view");
+	glUniformMatrix4fv(viewID, 1, false, glm::value_ptr(interpView));
+	glUseProgram(0);
+	cout << dt << " MainGame::interp() " << _isPaused << endl;
 }
 
 void MainGame::draw()
@@ -185,12 +155,12 @@ void MainGame::draw()
 	GLuint vboLoc = shaderProg->get_attribute("inVertex");
 	GLuint cboLoc = shaderProg->get_attribute("inColor");
 
-	GLuint viewID = shaderProg->get_uniform("view");
+	// GLuint viewID = shaderProg->get_uniform("view");
 	GLuint projectionID = shaderProg->get_uniform("projection");
 	GLuint modelID = shaderProg->get_uniform("model");
 	glm::mat4 model = glm::mat4(1.0f);
 	glUniformMatrix4fv(modelID, 1, false, glm::value_ptr(model));
-	glUniformMatrix4fv(viewID, 1, false, glm::value_ptr(_view));
+	// glUniformMatrix4fv(viewID, 1, false, glm::value_ptr(_view));
 	glUniformMatrix4fv(projectionID, 1, false, glm::value_ptr(_projection));
 
 	glEnableVertexAttribArray(vboLoc);
@@ -202,16 +172,6 @@ void MainGame::draw()
 	glBindBuffer(GL_ARRAY_BUFFER, _cbo->get_id());
 	glVertexAttribPointer(cboLoc, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// // Use the vertex buffer
-	// glBindBuffer(GL_ARRAY_BUFFER, _vbo->get_id());
-	// glVertexPointer(/*xyz*/3, GL_FLOAT, 0, 0);
-	// glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// // Use the color buffer
-	// glBindBuffer(GL_ARRAY_BUFFER, _cbo->get_id());
-	// glColorPointer(/*rgba*/4, GL_FLOAT, 0, 0);
-	// glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	_ibo->draw();
 	// _vbo->draw();

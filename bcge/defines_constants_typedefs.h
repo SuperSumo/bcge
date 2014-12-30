@@ -15,6 +15,6 @@ typedef unsigned int uint;
 typedef vector<string> StringVec;
 
 // Constants
-static const float DT = 0.01f; // How fast the physics is updated (sec)
+static const float DT = 1.0f; // How fast the physics is updated (sec)
 
 #endif

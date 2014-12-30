@@ -135,7 +135,7 @@ void Manager::_main_loop()
 		_game->get_keyboard()->_check_keys(DT);
 
 		// Just interpolate the physics simulation. Should be very fast.
-		_game->interp(accumulator / DT);
+		_game->interp(accumulator);
 
 		// Draw the current state of everything.
 		if (!_isLoading)
