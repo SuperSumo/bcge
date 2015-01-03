@@ -1,0 +1,100 @@
+config.o: config.cpp \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h config.h
+main.o: main.cpp manager.h config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h \
+ games/main_game.h /home/dgleason/dev/lib/glew-1.11.0/include/gl/glew.h \
+ games/../abc/game.h
+manager.o: manager.cpp defines_constants_typedefs.h manager.h config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h window.h \
+ renderer.h /home/dgleason/dev/lib/glew-1.11.0/include/gl/glew.h \
+ abc/game.h abc/input.h timer.h
+renderer.o: renderer.cpp \
+ /home/dgleason/dev/lib/glew-1.11.0/include/gl/glew.h renderer.h \
+ defines_constants_typedefs.h manager.h config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h window.h \
+ abc/game.h
+timer.o: timer.cpp timer.h
+window.o: window.cpp \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h manager.h \
+ config.h window.h defines_constants_typedefs.h
+game.o: abc/game.cpp abc/game.h abc/input.h abc/../manager.h \
+ abc/../config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h
+input.o: abc/input.cpp abc/input.h abc/../abc/game.h abc/../manager.h \
+ abc/../config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h
+main_game.o: games/main_game.cpp \
+ /home/dgleason/dev/lib/glew-1.11.0/include/gl/glew.h games/main_game.h \
+ games/../abc/game.h games/main_input.h games/../abc/input.h \
+ games/../manager.h games/../config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h
+main_input.o: games/main_input.cpp games/main_input.h \
+ games/../abc/input.h games/../abc/game.h games/../manager.h \
+ games/../config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/json.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/autolink.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/config.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/value.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/forwards.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/reader.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/features.h \
+ /home/dgleason/dev/lib/jsoncpp-src-0.5.0/include/json/writer.h \
+ games/../window.h games/../defines_constants_typedefs.h
