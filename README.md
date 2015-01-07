@@ -1,6 +1,8 @@
 # SumoLabs Game Engine
 ### Library Installation
-sudo apt-get install libsdl2-dev  
-sudo apt-get install libglm-dev  
-sudo apt-get install libjsoncpp-dev  
-sudo apt-get install libglew-dev
+
+```
+#!bash
+
+sudo apt-get install libsdl2-dev libglm-dev libjsoncpp-dev libglew-dev
+```
