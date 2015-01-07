@@ -3,3 +3,4 @@
 *.exe
 *.sublime*
 *.so
+.make.deps

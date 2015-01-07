@@ -2,7 +2,7 @@
 #define MAIN_GAME_H
 
 // TODO: Remove these includes
-#include <gl/glew.h>
+#include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 

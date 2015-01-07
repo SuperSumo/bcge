@@ -3,9 +3,9 @@
 #include <sstream>
 
 #include <SDL2/SDL.h>
-#include <json/json.h>
-#include <json/reader.h>
-#include <json/writer.h>
+#include <jsoncpp/json/json.h>
+#include <jsoncpp/json/reader.h>
+#include <jsoncpp/json/writer.h>
 
 #include "config.h"
 

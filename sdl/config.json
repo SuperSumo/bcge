@@ -1,12 +1,11 @@
 {
    "isFullScreen" : false,
    "mouse_clicked" : 1,
-   "print_mouse_coords" : 1,
    "quit" : "Q",
    "toggle_cursor" : "Escape",
    "toggle_fullscreen" : "F",
-   "windowHeight" : 598,
-   "windowWidth" : 1037,
-   "windowX" : 325,
-   "windowY" : 211
+   "windowHeight" : 480,
+   "windowWidth" : 640,
+   "windowX" : 404,
+   "windowY" : 296
 }

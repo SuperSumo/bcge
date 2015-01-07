@@ -3,7 +3,7 @@
 #include <sstream>
 
 #include <SDL2/SDL.h>
-#include <json/json.h>
+#include <jsoncpp/json/json.h>
 
 #include "manager.h"
 #include "window.h"
