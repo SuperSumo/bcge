@@ -3,8 +3,9 @@
 #include <SDL2/SDL_opengl.h>
 
 #include "main_game.h"
-#include "main_input.h"
+#include "../input.h"
 #include "../manager.h"
+#include "../window.h"
 
 void printProgramLog( GLuint program )
 {
@@ -74,7 +75,7 @@ MainGame::MainGame(Manager* manager):
 	Game(manager)
 {
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::MainGame()");
-	_input = new MainInput(this); // Deleted by the parent class
+	_input = new Input("main", this); // Deleted by the parent class
 
 	// TODO: Delete these
 	gProgramID = 0;
@@ -93,7 +94,15 @@ bool MainGame::init()
 {
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::init()");
 
-	// TODO: Move this to the input manager
+	// Register game callbacks
+	_input->register_callback("mouse_1", "mouse_clicked", mouse_clicked);
+	_input->register_callback("mouse_3", "jump", jump);
+	_input->register_callback("Q", "quit", quit);
+ 	_input->register_callback("Escape", "toggle_cursor", toggle_cursor);
+	_input->register_callback("Left Shift", "crouch", crouch);
+ 	_input->register_callback("F", "toggle_fullscreen", toggle_fullscreen);
+
+	// By default, hide the cursor in this game mode
 	SDL_ShowCursor(0);
 
 	// TODO: Delete everything under here
@@ -206,7 +215,7 @@ bool MainGame::init()
 
 void MainGame::update(float dt)
 {
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::update() %f", dt);
+	// SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::update() %f", dt);
 }
 
 void MainGame::interp(float dt)
@@ -240,4 +249,41 @@ void MainGame::draw_delete_me()
 
 	//Unbind program
 	glUseProgram(0);
+}
+
+void jump(Game* game, float dt, int x, int y)
+{
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "jumping: %f", dt);
+}
+
+void crouch(Game* game, float dt, int x, int y)
+{
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "crouching: %f", dt);
+}
+
+void quit(Game* game, float dt, int x, int y)
+{
+	game->get_manager()->quit();
+}
+
+void toggle_fullscreen(Game* game, float dt, int x, int y)
+{
+	game->get_manager()->get_window()->toggle_fullscreen();
+}
+
+void toggle_cursor(Game* game, float dt, int x, int y)
+{
+	SDL_bool cursorShown = SDL_bool((SDL_ShowCursor(-1) == 1));
+	SDL_ShowCursor(!cursorShown);
+	SDL_Window* id = game->get_manager()->get_window()->get_id();
+	SDL_SetWindowGrab(id, cursorShown);
+}
+
+void mouse_clicked(Game* game, float dt, int x, int y)
+{
+	SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "mouse_clicked");
+	if (SDL_bool((SDL_ShowCursor(-1) == 1))) // If the cursor is shown
+		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "UI (%i,%i)", x, y);
+	else
+		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "Attack!");
 }

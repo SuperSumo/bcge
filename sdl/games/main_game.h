@@ -35,4 +35,11 @@ class MainGame: public Game
 		GLuint gIBO;
 };
 
+void jump(Game* game, float dt, int x, int y);
+void crouch(Game* game, float dt, int x, int y);
+void quit(Game* game, float dt, int x, int y);
+void toggle_fullscreen(Game* game, float dt, int x, int y);
+void toggle_cursor(Game* game, float dt, int x, int y);
+void mouse_clicked(Game* game, float dt, int x, int y);
+
 #endif

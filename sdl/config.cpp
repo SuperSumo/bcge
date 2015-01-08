@@ -24,7 +24,9 @@ void Config::open(string filename)
 	ifstream configFile(filename.c_str());
 	if(configFile.fail())
 	{
-		// If the file opening failed, write a new file and open it
+				// If the file opening failed, write a new file and open it
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Missing config file: %s\n",
+			filename.c_str());
 		ofstream createFile(filename.c_str());
 		createFile.close();
 		configFile.open(filename.c_str());
@@ -33,6 +35,12 @@ void Config::open(string filename)
 	// Read from the stream into a buffer
 	stringstream buffer;
 	buffer << configFile.rdbuf();
+
+	// Backup the config file.
+	string backupFilename = filename + ".bak";
+	ofstream backupFile(backupFilename.c_str());
+	backupFile << buffer.str();
+	backupFile.close();
 
 	// Parse it using jsoncpp (https://github.com/open-source-parsers/jsoncpp)
 	Json::Reader reader;

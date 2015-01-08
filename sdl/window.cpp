@@ -18,11 +18,12 @@ Window::Window(Manager* manager, uint x, uint y, uint width, uint height):
 	SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "Window::Window()");
 
 	// Get the values from the json file if they exist
-	_x = _manager->config.root.get("windowX", _x).asUInt();
-	_y = _manager->config.root.get("windowY", _y).asUInt();
-	_width = _manager->config.root.get("windowWidth", _width).asUInt();
-	_height = _manager->config.root.get("windowHeight", _height).asUInt();
-	_isFullScreen = _manager->config.root.get("isFullScreen", _isFullScreen).asBool();
+	Json::Value val = _manager->config.root["window"];
+	_x = val.get("windowX", _x).asUInt();
+	_y = val.get("windowY", _y).asUInt();
+	_width = val.get("windowWidth", _width).asUInt();
+	_height = val.get("windowHeight", _height).asUInt();
+	_isFullScreen = val.get("isFullScreen", _isFullScreen).asBool();
 }
 
 Window::~Window()
@@ -33,11 +34,11 @@ Window::~Window()
 	int x, y, width, height;
 	SDL_GetWindowSize(_id, &width, &height);
 	SDL_GetWindowPosition(_id, &x, &y);
-	_manager->config.root["windowX"] = x;
-	_manager->config.root["windowY"] = y;
-	_manager->config.root["windowWidth"] = width;
-	_manager->config.root["windowHeight"] = height;
-	_manager->config.root["isFullScreen"] = _isFullScreen;
+	_manager->config.root["window"]["windowX"] = x;
+	_manager->config.root["window"]["windowY"] = y;
+	_manager->config.root["window"]["windowWidth"] = width;
+	_manager->config.root["window"]["windowHeight"] = height;
+	_manager->config.root["window"]["isFullScreen"] = _isFullScreen;
 
 	// Destroy the SDL window
 	SDL_DestroyWindow(_id);

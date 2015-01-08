@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 
 	// Create and initialize a game
 	MainGame* game = new MainGame(&manager);
-	if (!game->_init())
+	if (!game->init())
 		return 2;
 
 	// Load the game which starts the main loop

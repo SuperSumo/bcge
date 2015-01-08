@@ -1,6 +1,7 @@
+#include <string>
+#include <sstream>
 // TODO: i don't need <iostream>
 #include <iostream>
-using namespace std;
 
 #include <SDL2/SDL.h>
 
@@ -9,7 +10,7 @@ using namespace std;
 #include "window.h"
 #include "renderer.h"
 #include "abc/game.h"
-#include "abc/input.h"
+#include "input.h"
 #include "timer.h"
 
 using namespace std;
@@ -126,7 +127,7 @@ void Manager::start_main_loop()
 		_handle_events();
 
 		// Handle the input event queue
-		_game->get_input()->_check_input(DT);
+		_game->get_input()->execute_actions(DT);
 
 		// Just interpolate the physics simulation. Should be very fast.
 		_game->interp(accumulator);
@@ -139,10 +140,12 @@ void Manager::start_main_loop()
 void Manager::_handle_events()
 {
 	SDL_Event event;
-	SDL_Scancode scanCode;
+	string name;
+	stringstream ss;
 	Uint8 button;
 	while (SDL_PollEvent(&event))
 	{
+		ss.str(string()); // Clear the string stream
 		switch (event.type)
 		{
 			case SDL_QUIT:
@@ -156,24 +159,29 @@ void Manager::_handle_events()
 				break;
 
 			case SDL_KEYDOWN:
-				scanCode = event.key.keysym.scancode;
 				if (!event.key.repeat)
-					_game->get_input()->key_event(scanCode, true);
+					ss << SDL_GetKeyName(event.key.keysym.sym);
+					_game->get_input()->enqueue_action(ss.str(), true);
 				break;
 
 			case SDL_KEYUP:
-				scanCode = event.key.keysym.scancode;
-				_game->get_input()->key_event(scanCode, false);
+				ss << SDL_GetKeyName(event.key.keysym.sym);
+				_game->get_input()->enqueue_action(ss.str(), false);
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
 				button = uint(event.button.button);
-				_game->get_input()->button_event(button, true);
+				ss << "mouse_" << int(button);
+				cout << "pressing: " << ss.str() << endl;
+				_game->get_input()->enqueue_action(ss.str(), true,
+					event.button.x, event.button.y);
 				break;
 
 			case SDL_MOUSEBUTTONUP:
 				button = uint(event.button.button);
-				_game->get_input()->button_event(button, false);
+				ss << "mouse_" << int(button);
+				_game->get_input()->enqueue_action(ss.str(), false,
+					event.button.x, event.button.y);
 				break;
 
 			case SDL_MOUSEMOTION:
