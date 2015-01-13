@@ -1,9 +1,9 @@
 {
    "controls" : {
       "main" : {
-         "mouse_clicked" : "mouse_1",
          "crouch" : "Left Shift",
          "jump" : "mouse_3",
+         "mouse_clicked" : "mouse_1",
          "quit" : "Q",
          "toggle_cursor" : "Escape",
          "toggle_fullscreen" : "F"
@@ -16,7 +16,7 @@
       "isFullScreen" : false,
       "windowHeight" : 598,
       "windowWidth" : 1037,
-      "windowX" : 401,
-      "windowY" : 269
+      "windowX" : 291,
+      "windowY" : 178
    }
 }

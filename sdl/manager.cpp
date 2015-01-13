@@ -160,8 +160,10 @@ void Manager::_handle_events()
 
 			case SDL_KEYDOWN:
 				if (!event.key.repeat)
+				{
 					ss << SDL_GetKeyName(event.key.keysym.sym);
 					_game->get_input()->enqueue_action(ss.str(), true);
+				}
 				break;
 
 			case SDL_KEYUP:
@@ -197,11 +199,6 @@ void Manager::_handle_events()
 
 void Manager::move_mouse(Sint32 xrel, Sint32 yrel)
 {
-	static bool wasMoved = true;
-	wasMoved = !wasMoved;
-	if (wasMoved)
-		return;
-
 	// If we are currently showing the cursor, don't move it back to the middle
 	if (SDL_ShowCursor(-1) == 1)
 		return;

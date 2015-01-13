@@ -105,6 +105,9 @@ bool MainGame::init()
 	// By default, hide the cursor in this game mode
 	SDL_ShowCursor(0);
 
+	// Since we are hiding the cursor, set to relative mode
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+
 	// TODO: Delete everything under here
 
 	//Generate program
@@ -275,6 +278,7 @@ void toggle_cursor(Game* game, float dt, int x, int y)
 {
 	SDL_bool cursorShown = SDL_bool((SDL_ShowCursor(-1) == 1));
 	SDL_ShowCursor(!cursorShown);
+	SDL_SetRelativeMouseMode(SDL_bool(SDL_ShowCursor(-1) == 0));
 	SDL_Window* id = game->get_manager()->get_window()->get_id();
 	SDL_SetWindowGrab(id, cursorShown);
 }
