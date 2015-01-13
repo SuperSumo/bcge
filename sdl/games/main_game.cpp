@@ -75,7 +75,6 @@ MainGame::MainGame(Manager* manager):
 	Game(manager)
 {
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::MainGame()");
-	_input = new Input("main", this); // Deleted by the parent class
 
 	// TODO: Delete these
 	gProgramID = 0;
@@ -95,12 +94,13 @@ bool MainGame::init()
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::init()");
 
 	// Register game callbacks
-	_input->register_callback("mouse_1", "mouse_clicked", mouse_clicked);
-	_input->register_callback("mouse_3", "jump", jump);
-	_input->register_callback("Q", "quit", quit);
- 	_input->register_callback("Escape", "toggle_cursor", toggle_cursor);
-	_input->register_callback("Left Shift", "crouch", crouch);
- 	_input->register_callback("F", "toggle_fullscreen", toggle_fullscreen);
+	add_input("main");
+	get_input("main")->add_action("mouse_1", "mouse_clicked", mouse_clicked);
+	get_input("main")->add_action("mouse_3", "jump", jump);
+	get_input("main")->add_action("Q", "quit", quit);
+ 	get_input("main")->add_action("Escape", "toggle_cursor", toggle_cursor);
+	get_input("main")->add_action("Left Shift", "crouch", crouch);
+ 	get_input("main")->add_action("F", "toggle_fullscreen", toggle_fullscreen);
 
 	// By default, hide the cursor in this game mode
 	SDL_ShowCursor(0);

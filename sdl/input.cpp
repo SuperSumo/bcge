@@ -15,8 +15,8 @@ Input::Input(string section, Game* game):
 	SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "Input::Input()");
 }
 
-void Input::register_callback(string defaultInput, string action,
-	ActionFuncPtr funcPtr, bool state)
+void Input::add_action(string defaultInput, string action, ActionFuncPtr funcPtr,
+	bool state)
 {
 	// Get the input from the config file
 	Json::Value val = _game->get_manager()->config.root["controls"][_section];
@@ -25,14 +25,14 @@ void Input::register_callback(string defaultInput, string action,
 	// If it wasn't initially set, set it now
 	_game->get_manager()->config.root["controls"][_section][action] = input;
 
-	// Make the InputAction structure and add to the _inputMap
-	_inputMap[InputAction(input, state)] = action;
+	// Make the InputAction structure and add to the _inputActionMap
+	_inputActionMap[InputAction(input, state)] = action;
 
 	// Map the action name to the function pointer
-	_actionMap[action] = funcPtr;
+	_actionFuncPtrMap[action] = funcPtr;
 
 	SDL_LogInfo(SDL_LOG_CATEGORY_INPUT,
-		"Input::register_callback() - Mapped %s as %s %s",
+		"Input::add_action() - Mapped %s as %s %s",
 		action.c_str(), input.c_str(), (state ? "down" : "up"));
 }
 
@@ -41,8 +41,8 @@ void Input::enqueue_action(string inputID, bool state, int x, int y)
 	// Create an InputAction object
 	InputAction inputAction(inputID, state, x, y);
 
-	// Ensure inputAction is a key in _inputMap
-	if (_inputMap.find(inputAction) == _inputMap.end())
+	// Ensure inputAction is a key in _inputActionMap
+	if (_inputActionMap.find(inputAction) == _inputActionMap.end())
 	{
 		SDL_LogWarn(SDL_LOG_CATEGORY_INPUT,
 		"Input::enqueue_action() - InputAction %s %s not mapped",
@@ -51,48 +51,48 @@ void Input::enqueue_action(string inputID, bool state, int x, int y)
 	}
 
 	// Add to the queue
-	_inputQueue.push(inputAction);
+	_inputActionQueue.push(inputAction);
 }
 
 void Input::execute_actions(float dt)
 {
 	InputAction inputAction;
-	while (!_inputQueue.empty())
+	while (!_inputActionQueue.empty())
 	{
 		// Grab the next action from the queue
-		inputAction = _inputQueue.front();
+		inputAction = _inputActionQueue.front();
 
 		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT,
 		"Input::execute_actions() - Calling %s %s",
 		inputAction.inputID.c_str(), (inputAction.state ? "down" : "up"));
 
-		// Ensure inputAction is a key in _inputMap
-		if (_inputMap.find(inputAction) == _inputMap.end())
+		// Ensure inputAction is a key in _inputActionMap
+		if (_inputActionMap.find(inputAction) == _inputActionMap.end())
 		{
 			SDL_LogWarn(SDL_LOG_CATEGORY_INPUT,
 			"Input::execute_actions() - InputAction %s %s not mapped",
 			inputAction.inputID.c_str(), (inputAction.state ? "down" : "up"));
-			_inputQueue.pop();
+			_inputActionQueue.pop();
 			continue;
 		}
 
 		// Get the action name from the inputAction
-		string actionName = _inputMap[inputAction];
+		string actionName = _inputActionMap[inputAction];
 
-		// Ensure actionName is a key in _actionMap
-		if (_actionMap.find(actionName) == _actionMap.end())
+		// Ensure actionName is a key in _actionFuncPtrMap
+		if (_actionFuncPtrMap.find(actionName) == _actionFuncPtrMap.end())
 		{
 			SDL_LogWarn(SDL_LOG_CATEGORY_INPUT,
 			"Input::execute_actions() - Action %s not mapped",
 			actionName.c_str());
-			_inputQueue.pop();
+			_inputActionQueue.pop();
 			continue;
 		}
 
 		// Call the specific function pointer
-		_actionMap[actionName](_game, dt, inputAction.x, inputAction.y);
+		_actionFuncPtrMap[actionName](_game, dt, inputAction.x, inputAction.y);
 
 		// Remove the action from the queue
-		_inputQueue.pop();
+		_inputActionQueue.pop();
 	}
 }

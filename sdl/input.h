@@ -32,9 +32,9 @@ struct InputAction
 };
 
 typedef void (*ActionFuncPtr)(Game*, float, int, int);
-typedef map<InputAction, string> InputMap;
-typedef queue<InputAction> InputQueue;
-typedef map<string, ActionFuncPtr> ActionMap;
+typedef map<InputAction, string> InputActionMap;
+typedef queue<InputAction> InputActionQueue;
+typedef map<string, ActionFuncPtr> ActionFuncPtrMap;
 
 class Input
 {
@@ -42,7 +42,7 @@ class Input
 
 		Input(string section, Game* game);
 
-		void register_callback(string defaultInput, string action,
+		void add_action(string defaultInput, string action,
 			ActionFuncPtr funcPtr, bool state=true);
 		void enqueue_action(string inputID, bool state=true, int x=0, int y=0);
 		void execute_actions(float dt);
@@ -53,9 +53,9 @@ class Input
 
 		string _section; // The controls subsection
 		Game* _game; // Not owned by this class
-		InputMap _inputMap;
-		InputQueue _inputQueue;
-		ActionMap _actionMap;
+		InputActionMap _inputActionMap;
+		InputActionQueue _inputActionQueue;
+		ActionFuncPtrMap _actionFuncPtrMap;
 };
 
 #endif

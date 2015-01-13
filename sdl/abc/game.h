@@ -1,8 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <map>
+#include <string>
+
+using namespace std;
+
 class Manager;
 class Input;
+
+typedef map<string, Input*> InputMap;
 
 class Game
 {
@@ -15,7 +22,9 @@ class Game
 		virtual void interp(float dt)=0;
 
 		Manager* get_manager();
-		Input* get_input();
+
+		void add_input(string name);
+		Input* get_input(string name=string());
 
 		// TODO: Delete this:
 		virtual void draw_delete_me()=0;
@@ -23,7 +32,9 @@ class Game
 	protected:
 
 		Manager* _manager;
-		Input* _input;
+
+		InputMap _inputMap;
+		Input* _currentInput;
 
 	private:
 
