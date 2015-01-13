@@ -10,6 +10,7 @@ using namespace std;
 #define TITLE "Awesome SDL Game! v0.1"
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
+#define ICON "icon.png"
 
 // Typedefs
 typedef unsigned char uchar;

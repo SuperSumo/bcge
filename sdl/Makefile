@@ -3,7 +3,7 @@ COMPFLAGS = -c
 
 LINKER = g++
 
-LIBS = -lGL -lGLU -lGLEW -lSDL2 -ljsoncpp
+LIBS = -lGL -lGLU -lGLEW -lSDL2 -lSDL2_image -ljsoncpp
 
 SRCS = $(wildcard *.cpp)
 SRCS += $(wildcard abc/*.cpp)

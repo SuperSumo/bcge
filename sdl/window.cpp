@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <jsoncpp/json/json.h>
 
 #include "manager.h"
@@ -81,6 +82,9 @@ bool Window::create_window()
 			"Window could not be created: %s\n", SDL_GetError());
 		return false;
 	}
+
+	// Set the icon
+	SDL_SetWindowIcon(_id, IMG_Load(ICON));
 
 	// Success
 	return true;

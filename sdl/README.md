@@ -4,5 +4,5 @@
 ```
 #!bash
 
-sudo apt-get install libsdl2-dev libglm-dev libjsoncpp-dev libglew-dev
+sudo apt-get install libsdl2-dev libglm-dev libjsoncpp-dev libglew-dev libsdl2-image-dev
 ```
