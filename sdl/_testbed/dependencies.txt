@@ -1,0 +1,5 @@
+config.o: config.cpp config.h
+input.o: input.cpp defines_constants_typedefs.h input.h config.h \
+ named_stack.h
+named_stack.o: named_stack.cpp defines_constants_typedefs.h named_stack.h \
+ input.h config.h

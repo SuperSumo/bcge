@@ -18,6 +18,7 @@ class Game
 		Game(Manager* manager);
 		virtual ~Game();
 
+		virtual bool init()=0;
 		virtual void update(float dt)=0;
 		virtual void interp(float dt)=0;
 
