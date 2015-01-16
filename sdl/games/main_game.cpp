@@ -93,14 +93,26 @@ bool MainGame::init()
 {
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::init()");
 
-	// Register game callbacks
-	add_input("main");
-	get_input("main")->add_action("mouse_1", "mouse_clicked", mouse_clicked);
-	get_input("main")->add_action("mouse_3", "jump", jump);
-	get_input("main")->add_action("Q", "quit", quit);
- 	get_input("main")->add_action("Escape", "toggle_cursor", toggle_cursor);
-	get_input("main")->add_action("Left Shift", "crouch", crouch);
- 	get_input("main")->add_action("F", "toggle_fullscreen", toggle_fullscreen);
+	// Create an Input
+	if (_input)
+		delete _input;
+	_input = new Input(this);
+
+	// Register all the callbacks
+	_input->register_callback("attack", attack);
+	_input->register_callback("menu_click", menu_click);
+	_input->register_callback("jump", jump);
+	_input->register_callback("quit", quit);
+	_input->register_callback("toggle_menu", toggle_menu);
+	_input->register_callback("crouch", crouch);
+	_input->register_callback("toggle_fullscreen", toggle_fullscreen);
+
+	// Initialize the input, which loads the keymap from config.json
+	_input->init();
+
+	// Load the main keymap into the input stack
+	// _input->push("menu");
+	_input->push("main");
 
 	// By default, hide the cursor in this game mode
 	SDL_ShowCursor(0);
@@ -254,28 +266,33 @@ void MainGame::draw_delete_me()
 	glUseProgram(0);
 }
 
-void jump(Game* game, float dt, int x, int y)
+void jump(Game* game, float dt, bool state, int x, int y)
 {
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "jumping: %f", dt);
+	if (state)
+		SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "jumping: %f", dt);
 }
 
-void crouch(Game* game, float dt, int x, int y)
+void crouch(Game* game, float dt, bool state, int x, int y)
 {
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "crouching: %f", dt);
+	if (state)
+		SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "crouching: %f", dt);
 }
 
-void quit(Game* game, float dt, int x, int y)
+void quit(Game* game, float dt, bool state, int x, int y)
 {
-	game->get_manager()->quit();
+	if (state)
+		game->get_manager()->quit();
 }
 
-void toggle_fullscreen(Game* game, float dt, int x, int y)
+void toggle_fullscreen(Game* game, float dt, bool state, int x, int y)
 {
-	game->get_manager()->get_window()->toggle_fullscreen();
+	if (state)
+		game->get_manager()->get_window()->toggle_fullscreen();
 }
 
-void toggle_cursor(Game* game, float dt, int x, int y)
+void toggle_cursor(Game* game, float dt, bool state, int x, int y)
 {
+	SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "toggle_cursor");
 	SDL_bool cursorShown = SDL_bool((SDL_ShowCursor(-1) == 1));
 	SDL_ShowCursor(!cursorShown);
 	SDL_SetRelativeMouseMode(SDL_bool(SDL_ShowCursor(-1) == 0));
@@ -283,11 +300,37 @@ void toggle_cursor(Game* game, float dt, int x, int y)
 	SDL_SetWindowGrab(id, cursorShown);
 }
 
-void mouse_clicked(Game* game, float dt, int x, int y)
+void toggle_menu(Game* game, float dt, bool state, int x, int y)
 {
-	SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "mouse_clicked");
-	if (SDL_bool((SDL_ShowCursor(-1) == 1))) // If the cursor is shown
-		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "UI (%i,%i)", x, y);
+	if (state)
+	{
+		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "toggle_menu");
+		toggle_cursor(game, dt, state, x, y);
+		string top = game->get_input()->top();
+		if (top == "menu")
+		{
+			game->get_input()->clear();
+			game->get_input()->push("main");
+		}
+		else
+		{
+			game->get_input()->clear();
+			game->get_input()->push("menu");
+		}
+		// cout << game->get_input()->top() << endl;
+	}
+}
+
+void menu_click(Game* game, float dt, bool state, int x, int y)
+{
+	if (state)
+		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "UI Clicked (%i,%i)", x, y);
+}
+
+void attack(Game* game, float dt, bool state, int x, int y)
+{
+	if (state)
+		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "Attack Charging!");
 	else
-		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "Attack!");
+		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "Attack Released!");
 }

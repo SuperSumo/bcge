@@ -21,8 +21,7 @@ struct InputAction
 	// This is so I can use this class as a key in a std::map
 	bool operator<(const InputAction& o) const
 	{
-		return inputID < o.inputID || \
-			(inputID == o.inputID && state < o.state);
+		return inputID < o.inputID;
 	}
 
     string inputID;
@@ -59,8 +58,6 @@ class Input: public NamedStack<InputActionMap>
         ActionFuncPtrMap _actionFuncPtrMap;
 };
 
-typedef map<string, Input*> InputMap;
-
 class Game
 {
 	public:
@@ -83,5 +80,6 @@ void attack(Game* game, float dt, bool state, int x, int y);
 void crouch(Game* game, float dt, bool state, int x, int y);
 void quit(Game* game, float dt, bool state, int x, int y);
 void toggle_cursor(Game* game, float dt, bool state, int x, int y);
+void menu_clicked(Game* game, float dt, bool state, int x, int y);
 
 #endif

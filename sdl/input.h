@@ -7,6 +7,8 @@
 
 #include <SDL2/SDL.h>
 
+#include "named_stack.h"
+
 using namespace std;
 
 class Game;
@@ -21,8 +23,7 @@ struct InputAction
 	// This is so I can use this class as a key in a std::map
 	bool operator<(const InputAction& o) const
 	{
-		return inputID < o.inputID || \
-			(inputID == o.inputID && state < o.state);
+		return inputID < o.inputID;
 	}
 
 	string inputID;
@@ -31,19 +32,20 @@ struct InputAction
 	int y;
 };
 
-typedef void (*ActionFuncPtr)(Game*, float, int, int);
+typedef void (*ActionFuncPtr)(Game*, float, bool, int, int);
 typedef map<InputAction, string> InputActionMap;
 typedef queue<InputAction> InputActionQueue;
 typedef map<string, ActionFuncPtr> ActionFuncPtrMap;
 
-class Input
+class Input: public NamedStack<InputActionMap>
 {
 	public:
 
-		Input(string section, Game* game);
+		Input(Game* game);
 
-		void add_action(string defaultInput, string action,
-			ActionFuncPtr funcPtr, bool state=true);
+		bool init(); // Load the key bindings from the json file
+		void register_callback(string action, ActionFuncPtr funcPtr);
+
 		void enqueue_action(string inputID, bool state=true, int x=0, int y=0);
 		void execute_actions(float dt);
 
@@ -51,11 +53,9 @@ class Input
 
 		Input();
 
-		string _section; // The controls subsection
 		Game* _game; // Not owned by this class
-		InputActionMap _inputActionMap;
 		InputActionQueue _inputActionQueue;
-		ActionFuncPtrMap _actionFuncPtrMap;
+        ActionFuncPtrMap _actionFuncPtrMap;
 };
 
 #endif

@@ -27,7 +27,8 @@ $(MAIN): $(OBJS)
 	$(LINKER) $(OBJS) $(LIBS) $(OUTFLAG) $(MAIN)
 
 clean:
-	rm -rf $(MAIN) $(OBJS)
+	rm -f $(MAIN)
+	find . -name "*.o" -type f -delete
 
 run: all
 	./$(MAIN)

@@ -9,22 +9,6 @@
 #include "input.h"
 #include "named_stack.h"
 
-/* TODO:
-1. In the game's init, create a new Input class:
-	_input = new Input(self);
-2. Register all the callbacks:
-	_input->register_callback(string action, ActionFuncPtr funcPtr);
-3. Change the input's init() call to automatically load the keymaps for each section, and
-add each section to the internal stack if the section doesn't exist.
-4. Then call init on the input, which maps the keys to the callbacks via json:
-	_input.init();
-5. Make sure all the keymaps are set in the config.json file. I don't want to deal with
-default keys anymore.
-6. Change the callback signature to take in the state bool. That way I can deal with the
-state of the input (down or up) in the callback itself. Used for "powering up" something,
-similar to Minecraft's bow draw mechanism.
-*/
-
 using namespace std;
 
 Input::Input(Game* game): _game(game)
@@ -83,7 +67,7 @@ void Input::register_callback(string action, ActionFuncPtr funcPtr)
 	// Map the action name to the function pointer
 	_actionFuncPtrMap[action] = funcPtr;
 
-	cout << "Mapped " << action << " to " << *funcPtr << endl;
+	cout << "Mapped " << action << " to function " << int(*(unsigned char *)(&funcPtr)) << endl;
 }
 
 void Input::enqueue_action(string inputID, bool state, int x, int y)
@@ -163,7 +147,7 @@ void Game::init()
 
 	// Register all the callbacks
 	_input->register_callback("attack", attack);
-/* 	_input->register_callback("mouse_clicked", mouse_clicked); */
+	_input->register_callback("menu_clicked", menu_clicked);
 	_input->register_callback("jump", jump);
 	_input->register_callback("quit", quit);
 	_input->register_callback("toggle_cursor", toggle_cursor);
@@ -211,25 +195,36 @@ void toggle_cursor(Game* game, float dt, bool state, int x, int y)
 	cout << "toggle_cursor: " << dt << endl;
 }
 
+void menu_clicked(Game* game, float dt, bool state, int x, int y)
+{
+	cout << "UI Clicked: " << x << ", " << y << endl;
+}
+
 /////////////
 
 int main(void)
 {
 	Game game;
 	game.init();
-	game.get_input("main")->enqueue_action("mouse_1");
+	cout << "==========INPUT========" << endl;
+/* 	game.get_input("main")->enqueue_action("mouse_1");
 	game.get_input()->enqueue_action("mouse_1");
 	game.get_input()->enqueue_action("mouse_2");
 	game.get_input()->enqueue_action("mouse_1");
 	game.get_input()->enqueue_action("mouse_2");
-	game.get_input()->enqueue_action("Left Shift");
+	game.get_input()->enqueue_action("Left Shift"); */
 	game.get_input()->enqueue_action("mouse_1");
-	game.get_input()->enqueue_action("mouse_4");
-	game.get_input()->enqueue_action("Escape");
+	game.get_input()->enqueue_action("mouse_1", false);
+/* 	game.get_input()->enqueue_action("mouse_4");
+	game.get_input()->enqueue_action("Escape"); */
+	cout << "==========EXECUTE========" << endl;
 	game.get_input()->execute_actions(1.234f);
 	cout << "==========POP========" << endl;
 	game.get_input()->pop();
-	game.get_input()->enqueue_action("Escape");
+	cout << "==========INPUT========" << endl;
+	game.get_input()->enqueue_action("mouse_1");
+	game.get_input()->enqueue_action("mouse_1", false);
+	cout << "==========EXECUTE========" << endl;
 	game.get_input()->execute_actions(1.234f);
 	return 0;
 }

@@ -9,8 +9,6 @@ using namespace std;
 class Manager;
 class Input;
 
-typedef map<string, Input*> InputMap;
-
 class Game
 {
 	public:
@@ -24,7 +22,6 @@ class Game
 
 		Manager* get_manager();
 
-		void add_input(string name);
 		Input* get_input(string name=string());
 
 		// TODO: Delete this:
@@ -33,9 +30,7 @@ class Game
 	protected:
 
 		Manager* _manager;
-
-		InputMap _inputMap;
-		Input* _currentInput;
+		Input* _input;
 
 	private:
 

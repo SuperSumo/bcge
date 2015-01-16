@@ -1,22 +1,23 @@
 {
    "controls" : {
       "main" : {
+         "attack" : "mouse_1",
          "crouch" : "Left Shift",
          "jump" : "mouse_3",
-         "mouse_clicked" : "mouse_1",
          "quit" : "Q",
-         "toggle_cursor" : "Escape",
+         "toggle_menu" : "Escape",
          "toggle_fullscreen" : "F"
       },
       "menu" : {
-         "quit" : "Escape"
+         "menu_click" : "mouse_1",
+         "toggle_menu" : "Escape"
       }
    },
    "window" : {
       "isFullScreen" : false,
       "windowHeight" : 598,
       "windowWidth" : 1037,
-      "windowX" : 234,
-      "windowY" : 152
+      "windowX" : 292,
+      "windowY" : 287
    }
 }
