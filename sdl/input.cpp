@@ -13,6 +13,18 @@
 
 using namespace std;
 
+InputAction::InputAction()
+{};
+
+InputAction::InputAction(string inputID, bool state, int x, int y):
+	inputID(inputID), state(state), x(x), y(y)
+{}
+
+bool InputAction::operator<(const InputAction& o) const
+{
+	return inputID < o.inputID;
+}
+
 Input::Input(Game* game):
 	_game(game)
 {
@@ -33,11 +45,14 @@ bool Input::init()
 	Json::Value::Members actions;
 	string actionName;
 	string inputID;
-	for (Json::Value::Members::iterator i = sections.begin(); i != sections.end(); ++i)
+	Json::Value::Members::iterator i = sections.begin();
+	Json::Value::Members::iterator j;
+	for (; i != sections.end(); ++i)
 	{
 		// Grab the section name
 		sectionName = *i;
-		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "Input::init() - Loading section %s", sectionName.c_str());
+		SDL_LogInfo(SDL_LOG_CATEGORY_INPUT,
+			"Input::init() - Loading section %s", sectionName.c_str());
 
 		// If the section doesn't exist in the input map, add it
 		if (!exists(sectionName))
@@ -48,7 +63,7 @@ bool Input::init()
 
 		// Loop through the section and add key bindings
 		actions = controls[sectionName].getMemberNames();
-		for (Json::Value::Members::iterator j = actions.begin(); j != actions.end(); ++j)
+		for (j = actions.begin(); j != actions.end(); ++j)
 		{
 			// Grab the action name
 			actionName = *j;
@@ -56,7 +71,9 @@ bool Input::init()
 			// Ensure actionName is a key in _actionFuncPtrMap
 			if (_actionFuncPtrMap.find(actionName) == _actionFuncPtrMap.end())
 			{
-				SDL_LogWarn(SDL_LOG_CATEGORY_INPUT, "Input::init() - Action %s not mapped to a function", actionName.c_str());
+				SDL_LogWarn(SDL_LOG_CATEGORY_INPUT,
+					"Input::init() - Action %s not mapped to a function",
+					actionName.c_str());
 				continue;
 			}
 
@@ -65,7 +82,9 @@ bool Input::init()
 			(*sectionMap)[InputAction(inputID)] = actionName;
 
 			// Log a successful mapping
-			SDL_LogInfo(SDL_LOG_CATEGORY_INPUT, "Input::init() - Mapped %s to %s", actionName.c_str(), inputID.c_str());
+			SDL_LogInfo(SDL_LOG_CATEGORY_INPUT,
+				"Input::init() - Mapped %s to %s",
+				actionName.c_str(), inputID.c_str());
 		}
 	}
 }
@@ -77,7 +96,8 @@ void Input::register_callback(string action, ActionFuncPtr funcPtr)
 
 	// Log a successful mapping
 	SDL_LogInfo(SDL_LOG_CATEGORY_INPUT,
-		"Input::register_callback() - Mapped %s to function %i", action.c_str(), int(*(unsigned char *)(&funcPtr)));
+		"Input::register_callback() - Mapped %s to function %i",
+		action.c_str(), int(*(unsigned char *)(&funcPtr)));
 }
 
 void Input::enqueue_action(string inputID, bool state, int x, int y)
@@ -118,7 +138,8 @@ void Input::execute_actions(float dt)
 			{
 				SDL_LogWarn(SDL_LOG_CATEGORY_INPUT,
 				"Input::execute_actions() - InputAction %s %s not mapped",
-				inputAction.inputID.c_str(), (inputAction.state ? "down" : "up"));
+				inputAction.inputID.c_str(),
+				(inputAction.state ? "down" : "up"));
 				continue;
 			}
 
@@ -129,7 +150,7 @@ void Input::execute_actions(float dt)
 			if (_actionFuncPtrMap.find(actionName) == _actionFuncPtrMap.end())
 			{
 				SDL_LogWarn(SDL_LOG_CATEGORY_INPUT,
-				"Input::execute_actions() - Action %s not mapped to a function",
+				"Input::execute_actions() - Action %s not mapped to function",
 				actionName.c_str());
 				continue;
 			}

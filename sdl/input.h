@@ -15,16 +15,11 @@ class Game;
 
 struct InputAction
 {
-	InputAction(){};
-	InputAction(string inputID, bool state=true, int x=0, int y=0):
-		inputID(inputID), state(state), x(x), y(y)
-	{}
+	InputAction();
+	InputAction(string inputID, bool state=true, int x=0, int y=0);
 
 	// This is so I can use this class as a key in a std::map
-	bool operator<(const InputAction& o) const
-	{
-		return inputID < o.inputID;
-	}
+	bool operator<(const InputAction& o) const;
 
 	string inputID;
 	bool state; // True for down, false for up

@@ -5,8 +5,8 @@
          "crouch" : "Left Shift",
          "jump" : "mouse_3",
          "quit" : "Q",
-         "toggle_menu" : "Escape",
-         "toggle_fullscreen" : "F"
+         "toggle_fullscreen" : "F",
+         "toggle_menu" : "Escape"
       },
       "menu" : {
          "menu_click" : "mouse_1",
@@ -17,7 +17,7 @@
       "isFullScreen" : false,
       "windowHeight" : 598,
       "windowWidth" : 1037,
-      "windowX" : 292,
-      "windowY" : 287
+      "windowX" : 626,
+      "windowY" : 264
    }
 }

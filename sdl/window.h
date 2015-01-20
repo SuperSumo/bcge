@@ -48,9 +48,11 @@ class Window
 
 // 	if(should_be_zero != 0)
 // 		// In case of error...
-// 		SDL_Log("Could not get display mode for video display #%d: %s", i, SDL_GetError());
+//		SDL_Log("Could not get display mode for video display #%d: %s",
+//			i, SDL_GetError());
 
 // 	else
 // 		// On success, print the current display mode.
-// 		SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz. \n", i, current.w, current.h, current.refresh_rate);
+//		SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz. \n",
+//			i, current.w, current.h, current.refresh_rate);
 // }

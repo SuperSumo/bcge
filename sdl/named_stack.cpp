@@ -11,10 +11,11 @@ using namespace std;
 template <typename T> NamedStack<T>::~NamedStack()
 {
 	// Delete all the elements in the map
-	for (typename _StacktypeMap::iterator it = _map.begin(); it != _map.end(); ++it)
-		delete it->second;
+	typename map<string, T*>::iterator i = _map.begin();
+	for (; i != _map.end(); ++i)
+		delete i->second;
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-				"NamedStack::~NamedStack()");
+		"NamedStack::~NamedStack()");
 }
 
 template <typename T> T* NamedStack<T>::add(string key)
@@ -23,8 +24,8 @@ template <typename T> T* NamedStack<T>::add(string key)
 	if (_map.find(key) != _map.end())
 	{
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-					 "NamedStack::add() - Key %s already exists.",
-					 key.c_str());
+			"NamedStack::add() - Key %s already exists.",
+			key.c_str());
 		return 0;
 	}
 
@@ -32,7 +33,7 @@ template <typename T> T* NamedStack<T>::add(string key)
 	if (key.length()==0)
 	{
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-					 "NamedStack::add() - Key lenth must be > 0");
+			"NamedStack::add() - Key lenth must be > 0");
 		return 0;
 	}
 
@@ -70,7 +71,7 @@ template <typename T> string NamedStack<T>::top()
 	if (size() <= 0)
 	{
 		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION,
-					"NamedStack::top() - Stack is empty");
+			"NamedStack::top() - Stack is empty");
 		return string();
 	}
 	return _stack.back();
@@ -85,15 +86,15 @@ template <typename T> T* NamedStack<T>::push(string key)
 	if (exists)
 	{
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-					 "NamedStack::push() - Key %s already exists.",
-					 key.c_str());
+			"NamedStack::push() - Key %s already exists.",
+			key.c_str());
 		return 0;
 	}
 
 	// Add an element pointer to the top of the stack and return it
-	SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-				 "NamedStack::push() - Pushing %s to top of stack",
-				 key.c_str());
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+		"NamedStack::push() - Pushing %s to top of stack",
+		key.c_str());
 	_stack.push_back(key);
 	return get(key);
 }
@@ -104,8 +105,9 @@ template <typename T> void NamedStack<T>::pop()
 	if (size() <= 0)
 	{
 		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION,
-					"NamedStack::pop() - Stack is empty");
-		return; // Return because erasing from an empty set is undefined behavior
+			"NamedStack::pop() - Stack is empty");
+		// Return because erasing from an empty set is undefined behavior
+		return;
 	}
 
 	// Remove the top item from the stack
@@ -118,6 +120,6 @@ template <typename T> void NamedStack<T>::clear()
 	_stack.clear();
 }
 
-// Explicit instantiation for the Input class
+// Explicit instantiation for the Input class. I don't like this, but oh well.
 #include "input.h"
 template class NamedStack<InputActionMap>;

@@ -197,6 +197,7 @@ void Manager::_handle_events()
 	}
 }
 
+// TODO: Move to the input class
 void Manager::move_mouse(Sint32 xrel, Sint32 yrel)
 {
 	// If we are currently showing the cursor, don't move it back to the middle

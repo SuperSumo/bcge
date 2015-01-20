@@ -21,7 +21,6 @@ class Game
 		virtual void interp(float dt)=0;
 
 		Manager* get_manager();
-
 		Input* get_input(string name=string());
 
 		// TODO: Delete this:
