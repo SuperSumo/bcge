@@ -80,11 +80,14 @@ void Renderer::render(Game* game)
 	// them according to their associated Object. I might want to make an
 	// ObjectManager which keeps track of objects and their instances.
 
+	// Clear the screen
+	glClear(GL_COLOR_BUFFER_BIT);
+
 	// For now, just call the game's draw call, but I want to move the opengl
 	// calls into the renderer and not keep them in the game.
 	game->draw_delete_me();
 
-	// Update screen
+	// Update screen / swap buffers
 	SDL_GL_SwapWindow(_manager->get_window()->get_id());
 }
 

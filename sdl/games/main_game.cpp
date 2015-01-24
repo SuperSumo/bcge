@@ -7,85 +7,23 @@
 #include "../manager.h"
 #include "../window.h"
 
-void printProgramLog( GLuint program )
-{
-	//Make sure name is shader
-	if( glIsProgram( program ) )
-	{
-		//Program log length
-		int infoLogLength = 0;
-		int maxLength = infoLogLength;
-
-		//Get info string length
-		glGetProgramiv( program, GL_INFO_LOG_LENGTH, &maxLength );
-
-		//Allocate string
-		char* infoLog = new char[ maxLength ];
-
-		//Get info log
-		glGetProgramInfoLog( program, maxLength, &infoLogLength, infoLog );
-		if( infoLogLength > 0 )
-		{
-			//Print Log
-			printf( "%s\n", infoLog );
-		}
-
-		//Deallocate string
-		delete[] infoLog;
-	}
-	else
-	{
-		printf( "Name %d is not a program\n", program );
-	}
-}
-
-void printShaderLog( GLuint shader )
-{
-	//Make sure name is shader
-	if( glIsShader( shader ) )
-	{
-		//Shader log length
-		int infoLogLength = 0;
-		int maxLength = infoLogLength;
-
-		//Get info string length
-		glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &maxLength );
-
-		//Allocate string
-		char* infoLog = new char[ maxLength ];
-
-		//Get info log
-		glGetShaderInfoLog( shader, maxLength, &infoLogLength, infoLog );
-		if( infoLogLength > 0 )
-		{
-			//Print Log
-			printf( "%s\n", infoLog );
-		}
-
-		//Deallocate string
-		delete[] infoLog;
-	}
-	else
-	{
-		printf( "Name %d is not a shader\n", shader );
-	}
-}
-
 MainGame::MainGame(Manager* manager):
-	Game(manager)
+	Game(manager), _fov(45.0f), _nearView(0.1f), _farView(100.0f),
+	_rotV(glm::vec3(2,3,1)), _pos(glm::vec3(0,0,-4))
 {
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::MainGame()");
 
-	// TODO: Delete these
-	gProgramID = 0;
-	gVertexPos2DLocation = -1;
-	gVBO = 0;
-	gIBO = 0;
+	// Create buffers
+	_vbo = new Buffer(VBO, GL_FLOAT);
+	_cbo = new Buffer(CBO, GL_FLOAT);
+	_ibo = new Buffer(IBO, GL_UNSIGNED_INT);
 }
 
 MainGame::~MainGame()
 {
-	glDeleteProgram(gProgramID);
+	delete _vbo;
+	delete _cbo;
+	delete _ibo;
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::~MainGame()");
 }
 
@@ -120,110 +58,80 @@ bool MainGame::init()
 	// Since we are hiding the cursor, set to relative mode
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 
-	// TODO: Delete everything under here
+	// Load the model data.
+	// TODO: Delete all of this and move into a game loading thing.
 
-	//Generate program
-	gProgramID = glCreateProgram();
+	/* A cube's vertices
+	 *    7----6
+	 *   /|   /|
+	 *  1----2 |  y  z
+	 *  | 4--|-5  | /
+	 *  |/   |/   |/
+	 *  0----3    o----x
+	 */
 
-	//Create vertex shader
-	GLuint vertexShader = glCreateShader( GL_VERTEX_SHADER );
-
-	//Get vertex source
-	const GLchar* vertexShaderSource[] =
+	GLfloat vertices[] =
 	{
-		"#version 140\nin vec2 LVertexPos2D; void main() { gl_Position = vec4( LVertexPos2D.x, LVertexPos2D.y, 0, 1 ); }"
+		-0.25f,	-0.25f,	-0.25f,	// 0
+		-0.25f,	0.25f,	-0.25f,	// 1
+		0.25f,	0.25f,	-0.25f,	// 2
+		0.25f,	-0.25f,	-0.25f,	// 3
+		-0.25f,	-0.25f,	0.25f,	// 4
+		0.25f,	-0.25f,	0.25f,	// 5
+		0.25f,	0.25f,	0.25f,	// 6
+		-0.25f,	0.25f,	0.25f	// 7
 	};
 
-	//Set vertex source
-	glShaderSource( vertexShader, 1, vertexShaderSource, NULL );
-
-	//Compile vertex source
-	glCompileShader( vertexShader );
-
-	//Check vertex shader for errors
-	GLint vShaderCompiled = GL_FALSE;
-	glGetShaderiv( vertexShader, GL_COMPILE_STATUS, &vShaderCompiled );
-	if( vShaderCompiled != GL_TRUE )
+	GLfloat colors[] =
 	{
-		printf( "Unable to compile vertex shader %d!\n", vertexShader );
-		printShaderLog( vertexShader );
-        return false;
-	}
-
-	//Attach vertex shader to program
-	glAttachShader( gProgramID, vertexShader );
-
-	//Create fragment shader
-	GLuint fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
-
-	//Get fragment source
-	const GLchar* fragmentShaderSource[] =
-	{
-		"#version 140\nout vec4 LFragment; void main() { LFragment = vec4( 0.3, 0.6, 1.0, 1.0 ); }"
+		0,0,0,0.5f,	// 0
+		0,1,0,0.5f,	// 1
+		1,1,0,0.5f,	// 2
+		1,0,0,0.5f,	// 3
+		0,0,1,0.5f,	// 4
+		1,0,1,0.5f,	// 5
+		1,1,1,0.5f,	// 6
+		0,1,1,0.5f	// 7
 	};
 
-	//Set fragment source
-	glShaderSource( fragmentShader, 1, fragmentShaderSource, NULL );
-
-	//Compile fragment source
-	glCompileShader( fragmentShader );
-
-	//Check fragment shader for errors
-	GLint fShaderCompiled = GL_FALSE;
-	glGetShaderiv( fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled );
-	if( fShaderCompiled != GL_TRUE )
+	GLuint indices[] =
 	{
-		printf( "Unable to compile fragment shader %d!\n", fragmentShader );
-		printShaderLog( fragmentShader );
-		return false;
-	}
-
-	//Attach fragment shader to program
-	glAttachShader( gProgramID, fragmentShader );
-
-
-	//Link program
-	glLinkProgram( gProgramID );
-
-	//Check for errors
-	GLint programSuccess = GL_TRUE;
-	glGetProgramiv( gProgramID, GL_LINK_STATUS, &programSuccess );
-	if( programSuccess != GL_TRUE )
-	{
-		printf( "Error linking program %d!\n", gProgramID );
-		printProgramLog( gProgramID );
-		return false;
-	}
-
-	//Get vertex attribute location
-	gVertexPos2DLocation = glGetAttribLocation( gProgramID, "LVertexPos2D" );
-	if( gVertexPos2DLocation == -1 )
-	{
-		printf( "LVertexPos2D is not a valid glsl program variable!\n" );
-		return false;
-	}
-
-	//VBO data
-	GLfloat vertexData[] =
-	{
-		-0.5f, -0.5f,
-		 0.5f, -0.5f,
-		 0.5f,  0.5f,
-		-0.5f,  0.5f
+		0,1,2, 0,2,3,	// Front
+		4,5,6, 4,6,7,	// Back
+		4,7,1, 4,1,0,	// Left
+		3,2,6, 3,6,5,	// Right
+		1,7,6, 1,6,2,	// Top
+		5,4,0, 5,0,3	// Bottom
 	};
 
-	//IBO data
-	GLuint indexData[] = { 0, 1, 2, 3 };
+	bool allGood = true;
+	allGood &= _vbo->load(vertices, sizeof(vertices));
+	allGood &= _cbo->load(colors, sizeof(colors));
+	allGood &= _ibo->load(indices, sizeof(indices));
 
-	//Create VBO
-	glGenBuffers( 1, &gVBO );
-	glBindBuffer( GL_ARRAY_BUFFER, gVBO );
-	glBufferData( GL_ARRAY_BUFFER, 2 * 4 * sizeof(GLfloat), vertexData, GL_STATIC_DRAW );
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+		"MainGame::init() - Buffers Loaded? %i", allGood);
+	if (!allGood)
+		_manager->quit();
 
-	//Create IBO
-	glGenBuffers( 1, &gIBO );
-	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIBO );
-	glBufferData( GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), indexData, GL_STATIC_DRAW );
+	// Clear out the shaderManager
+	shaderManager.clear();
+
+	// Load the shaders
+	shaderManager.add_shader(GL_VERTEX_SHADER, "shaders/vertex.glsl");
+	shaderManager.add_shader(GL_FRAGMENT_SHADER, "shaders/fragment.glsl");
+
+	// Load the shaderProgs
+	StringVec shaderNames;
+	shaderNames.push_back("shaders/vertex.glsl");
+	shaderNames.push_back("shaders/fragment.glsl");
+	shaderManager.add_shaderProg("test", shaderNames);
+
+	// Camera stuff
+	int w, h;
+	SDL_GetWindowSize(_manager->get_window()->get_id(), &w, &h);
+	_projection = glm::perspective(_fov, float(w)/h, _nearView, _farView);
+	_view = glm::translate(glm::mat4(1.0f), _pos);
 
 	return true;
 }
@@ -231,39 +139,59 @@ bool MainGame::init()
 void MainGame::update(float dt)
 {
 	// SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::update() %f", dt);
+	// Update the physics. Simulate.
+	// Do <current_state> += DT
+	// and also <interp_state> = <current_state>
+	// _view = glm::translate(glm::mat4(1.0f), _pos);
+	_view = glm::rotate(_view, dt*100, _rotV);
+	ShaderProg* shaderProg = shaderManager.get_shaderProg("test");
+	glUseProgram(shaderProg->get_id());
+	GLuint viewID = shaderProg->get_uniform("view");
+	glUniformMatrix4fv(viewID, 1, false, glm::value_ptr(_view));
+	glUseProgram(0);
 }
 
 void MainGame::interp(float dt)
 {
 	// SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "MainGame::interp() %f", dt);
+	// Interpolate the physics. Don't simulate.
+	// Do <interp_state> += DT
+	glm::mat4 interpView = glm::rotate(_view, dt*100, _rotV);
+	ShaderProg* shaderProg = shaderManager.get_shaderProg("test");
+	glUseProgram(shaderProg->get_id());
+	GLuint viewID = shaderProg->get_uniform("view");
+	glUniformMatrix4fv(viewID, 1, false, glm::value_ptr(interpView));
+	glUseProgram(0);
 }
 
 void MainGame::draw_delete_me()
 {
-	//Clear color buffer
-	glClear( GL_COLOR_BUFFER_BIT );
+	ShaderProg* shaderProg = shaderManager.get_shaderProg("test");
+	glUseProgram(shaderProg->get_id());
 
-	//Render quad
+	GLuint vboLoc = shaderProg->get_attribute("inVertex");
+	GLuint cboLoc = shaderProg->get_attribute("inColor");
 
-	//Bind program
-	glUseProgram( gProgramID );
+	GLuint projectionID = shaderProg->get_uniform("projection");
+	GLuint modelID = shaderProg->get_uniform("model");
+	glm::mat4 model = glm::mat4(1.0f);
+	glUniformMatrix4fv(modelID, 1, false, glm::value_ptr(model));
+	glUniformMatrix4fv(projectionID, 1, false, glm::value_ptr(_projection));
 
-	//Enable vertex position
-	glEnableVertexAttribArray( gVertexPos2DLocation );
+	glEnableVertexAttribArray(vboLoc);
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo->get_id());
+	glVertexAttribPointer(vboLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//Set vertex data
-	glBindBuffer( GL_ARRAY_BUFFER, gVBO );
-	glVertexAttribPointer( gVertexPos2DLocation, 2, GL_FLOAT, GL_FALSE,
-		2 * sizeof(GLfloat), NULL );
+	glEnableVertexAttribArray(cboLoc);
+	glBindBuffer(GL_ARRAY_BUFFER, _cbo->get_id());
+	glVertexAttribPointer(cboLoc, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//Set index data and render
-	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIBO );
-	glDrawElements( GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, NULL );
+	_ibo->draw();
 
-	//Disable vertex position
-	glDisableVertexAttribArray( gVertexPos2DLocation );
-
-	//Unbind program
+	glDisableVertexAttribArray(vboLoc);
+	glDisableVertexAttribArray(cboLoc);
 	glUseProgram(0);
 }
 
@@ -318,7 +246,6 @@ void toggle_menu(Game* game, float dt, bool state, int x, int y)
 			game->get_input()->clear();
 			game->get_input()->push("menu");
 		}
-		// cout << game->get_input()->top() << endl;
 	}
 }
 

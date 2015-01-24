@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 
+#include "../shaderManager.h"
+
 using namespace std;
 
 class Manager;
@@ -30,6 +32,7 @@ class Game
 
 		Manager* _manager;
 		Input* _input;
+		ShaderManager shaderManager;
 
 	private:
 

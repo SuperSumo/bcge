@@ -1,7 +1,5 @@
 #include <string>
 #include <sstream>
-// TODO: i don't need <iostream>
-#include <iostream>
 
 #include <SDL2/SDL.h>
 
@@ -174,7 +172,6 @@ void Manager::_handle_events()
 			case SDL_MOUSEBUTTONDOWN:
 				button = uint(event.button.button);
 				ss << "mouse_" << int(button);
-				cout << "pressing: " << ss.str() << endl;
 				_game->get_input()->enqueue_action(ss.str(), true,
 					event.button.x, event.button.y);
 				break;
@@ -204,7 +201,8 @@ void Manager::move_mouse(Sint32 xrel, Sint32 yrel)
 	if (SDL_ShowCursor(-1) == 1)
 		return;
 
-	cout << "Mouse Moved: " << xrel << ", " << yrel << endl;
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+		"Mouse Moved: %i, %i", xrel, yrel);
 	int width, height;
 	SDL_GetWindowSize(_window->get_id(), &width, &height);
 	SDL_WarpMouseInWindow(_window->get_id(), width>>1, height>>1);
