@@ -1,0 +1,35 @@
+{
+	"empty" :
+	{
+		"parent" : null,
+		"health" : 0,
+		"stamina" : 0,
+		"inventory" :
+		{
+			"hat" : null,
+			"shoulders" : null,
+			"wrists" : null,
+			"armor" : null,
+			"right hand" : null,
+			"left hand" : null,
+			"belt" : null,
+			"pants" : null,
+			"feet" : null,
+			"ring1" : null,
+			"ring2" : null,
+			"items":{}
+		}
+	},
+
+	"player" :
+	{
+		"parent" : "empty",
+		"health" : 10,
+		"stamina" : 10,
+		"inventory" :
+		{
+			"right hand" : "stick",
+			"pants" : "linen pants",
+		}
+	}
+}
